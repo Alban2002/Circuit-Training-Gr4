@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98269edd-dc22-438f-98ba-d0085c291e97" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/test2" beforeDir="false" afterPath="$PROJECT_DIR$/test2" afterDir="false" />
-    </list>
+    <list default="true" id="98269edd-dc22-438f-98ba-d0085c291e97" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +18,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
@@ -68,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1687512638559</updated>
       <workItem from="1687512640006" duration="422000" />
-      <workItem from="1687513118500" duration="390000" />
+      <workItem from="1687513118500" duration="751000" />
     </task>
     <servers />
   </component>
