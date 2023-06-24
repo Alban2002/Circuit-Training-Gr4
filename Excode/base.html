@@ -1,0 +1,200 @@
+<script type="text/javascript" src="jquery-3.7.0.min.js"></script>
+<script type="text/javascript" src="api-roots.js"></script>
+
+<style>
+	#identification {display:none;}
+	.hidden {display:none;}
+	.red {color:red;}
+
+	#Ingredients {width: 40%;background-color: darkgray ;}
+	#Ingredients div { float:  left; width: 100%;}
+	#Ingredients div p { width: 100%; border: 1px solid #000;
+    border-radius: 10px; padding: 10px;box-sizing: border-box;} 
+
+	#Cocktails { float:right; width:auto;background-color: lightgrey;}
+
+
+</style>
+
+<script>
+ 
+	var cache = {
+		"apiRoot" : false,
+		"hash" : false, 
+		"pseudo" : false
+	}; 
+	
+	function autologin(numAPI) {
+		if(numAPI == undefined) numAPI = 0; 
+		cache.apiRoot = roots[numAPI].root; 
+		cache.pseudo = roots[numAPI].pseudo; 
+		cache.hash = roots[numAPI].hash; 
+		$("#serveur select option:eq(" + numAPI+1 + ")").prop("selected","selected");
+		$("#pseudo").html("Pseudo : " + cache.pseudo).show();			 
+	}
+
+	function chargerListeIngredient(){
+		$("#Ingredients").show("slow");
+		/*$.getJSON("url", data,function (data, textStatus, jqXHR) {});*/
+		$.getJSON(cache.apiRoot + "/ingredients", {hash:cache.hash},function(oRep){
+			console.log(oRep);
+			var i; 
+			
+			$("#Ingredients legend").html("Ingredients"); 
+			$("#Ingredients select").empty(); 
+			for(i=0;i<oRep.ingredients.length;i++) {
+				if (oRep.ingredients[i].alcoolise==true) { // on vérifie si l'ingrédients est alcoolise
+					$("#Ingredients div").append(
+					$("<p>")
+						.html(oRep.ingredients[i].nom)
+						.data(oRep.ingredients[i])
+						.css("background-color","#F08080")
+					)	
+				}
+				else {
+					$("#Ingredients div").append(
+					$("<p>")
+						.html(oRep.ingredients[i].nom)
+						.data(oRep.ingredients[i])
+						.css("background-color","lightblue")
+					)
+				}						
+			}
+		}); // fin ajax GET /articles
+	}
+
+	function chargerCocktails(){
+		$("#Cocktails").show("slow");
+		$.getJSON(cache.apiRoot + "/cocktails", {hash:cache.hash},function(oRep){
+			console.log(oRep);
+			var i; 
+			$("#Cockatils").empty(); 
+			for(i=0;i<oRep.cocktails.length;i++) {
+				if (oRep.cocktails[i].alcoolise==true) { // on vérifie si l'ingrédients est alcoolise
+					$("#Cocktails").append(
+					$("<div>")
+						.id(oRep.cocktails[i].id)
+						.css("background-color","red")	)
+				}
+				else {
+					$("#Cocktails").append(
+					$("<div>")
+						.html(oRep.ingredients[i].nom)
+						.data(oRep.ingredients[i])
+						.css("background-color","lightblue")
+					)
+				}						
+			}
+		}); // fin ajax GET /articles
+	}
+	
+	$(document).ready(function(){
+	
+				
+		// reaction au changement dans le menu déroulant des api 
+		$("select","#articles").change(function(){
+			// quelle est l'option sélectionnée ? 
+			// console.log($("option:selected",$(this)));
+			// quelles sont ses données ? 
+			// var id = $("option:selected",$(this)).data("id"); 
+			chargerArticle($("option:selected",$(this)).data()); 
+		}); // fin change select articles
+		
+		
+		// click sur btn OK pour s'identifier
+		$("#identification input[value='OK']").click(function(){
+				console.log("OK identification");
+				//var user = $("#identification input[type='text']").val(); 
+				//var password = $("#identification input[type='password']").val();
+				var user = $("input[type='text']", $(this).parent()).val();
+				var password = $("input[type='password']", $(this).parent()).val();
+				console.log("user: "+user+" pass:"+password);
+				
+				$.ajax({
+					type: "POST",
+					url: cache.apiRoot + "/authenticate",
+					//headers: {"debug-data":true},
+					data: {"user":user,"password":password},
+					dataType: "json",
+					success: function(oRep){
+
+						console.log(oRep); 
+						$("#msg").hide();
+						cache.hash = oRep.hash;
+						cache.pseudo = user; 
+						$("#pseudo").html("Pseudo : " + cache.pseudo).show();						
+						$("#identification").hide(); 
+						chargerListeIngredient();
+						chargerCocktails(); 
+					},
+					error: function(){
+						$("#msg").html("Erreur d'identification !").show();
+					},	
+				}); // fin ajax POST authenticate
+				
+		}); // fin click OK #identification
+		
+		// reaction au changement dans le menu déroulant des api 
+		$("select","#serveur").change(function(){
+			// $(this) denote le select 
+			cache.apiRoot = $("option:selected", $(this)).html(); 
+			console.log("API root : " + cache.apiRoot);	
+			$("#identification").show("slow");
+			$("#articles").hide(); 
+			cache.pseudo = false; 
+			$("#pseudo").html("").hide();	
+			
+		}); // fin change select root
+		
+		// remplissage du select des api 
+		for(i=0;i<roots.length;i++) {
+			$("select","#serveur").append(
+				// "<option>" + roots[i].root + "</option>"
+				$("<option>")
+					.html(roots[i].root)
+			);
+		} // fin remplissage du select des api 
+		
+
+		
+		//autologin();
+	}); // fin doc.ready
+
+</script>
+
+<body>
+
+	<fieldset id="serveur">
+		<legend>Serveur</legend>
+		<select>
+			<option selected disabled>Choisir la racine de l'API</option>
+		</select>
+		<div class="hidden" id="pseudo"></div>
+	</fieldset>
+	
+	<fieldset class="hidden" id="identification">
+		<legend>Identification</legend>
+		Pseudo : <input type="text" value="tom"/> <br />
+		Password : <input type="password" value="web" /> <br />
+		<input type="button" value="OK"/>
+		<div class="hidden red" id="msg"></div>
+	</fieldset>
+
+	<fieldset class="hidden" id="Ingredients">
+		<legend>Liste des ingredient</legend>
+			<div>
+
+			</div>
+	</fieldset>
+
+	<fieldset class="hidden" id="Cocktails">
+		<legend>Cocktails</legend>
+
+
+	</fieldset>
+	
+
+</body>
+
+	
+
