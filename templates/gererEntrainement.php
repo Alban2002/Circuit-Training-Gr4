@@ -5,9 +5,8 @@
     <title>Gestion entrainement</title>
     <script type="text/javascript" src="../libs/jquery-3.7.0.min.js"></script>
     <script type="text/javascript" src="../libs/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="api-roots.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script type="text/javascript" src="../libs/api-roots.js"></script>
+    <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css">
     <style>
         #contenu {margin:5px 0px;}
         #contenu p:hover {
@@ -19,15 +18,17 @@
             width:100%;
             margin: 3px 0px;
         }
+        #contenu { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+        #contenu li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+        #contenu li span { position: absolute; margin-left: -1.3em; }
     </style>
-
 </head>
 
 <script>
 
 
     // preparation paragraphe
-    var jP = $("<p>")
+    var jP = $("<li>")
         .html("Nouveau P");
     /*
         comportement au click
@@ -56,7 +57,7 @@
             if (lbl != "") {
                 // si contenu champ qui précède btn n'est pas vide
                 // On s'en sert pour donner une valeur au P inséré
-                jClone.html(lbl);
+                jClone.html('<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+lbl);
             }
 
             if ($("input[value='+']").index($(this)) == 0) {
@@ -82,6 +83,7 @@
         $("#contenu").before(divBtnPlus.clone(true));
         $("#contenu").after(divBtnPlus.clone(true));
 
+        $("#contenu").sortable();
 
         // click sur un P de la page
         // qu'il existe ou pas encore
@@ -120,7 +122,7 @@
 
     }); // fin quand doc pret
 
-    var jTa = $("<textarea>")
+    var jTa = $("<textarea class='tags'>")
         .keydown(function(contexte){
             // On vient d'appuyer sur une touche
             // alors qu'on était dans le ta.
@@ -167,16 +169,45 @@
     ce contenu : .val()
     </textarea>
     */
+    $( function() {
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
+        $( "#tags" ).autocomplete({
+            source: availableTags
+        });
+    } );
 
 </script>
 
 <body>
 
-<div id="contenu">
-    <p>Premier P. </p>
-    <p>Second P. </p>
+<ul id="contenu">
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Premier P. </li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Second P. </li>
 
-</div>
+</ul>
 
 </body>
 
