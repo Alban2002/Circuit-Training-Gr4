@@ -1,6 +1,27 @@
-<script src="../libs/jquery-3.5.1.min.js">
-    // rien ici !
-</script>
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Gestion entrainement</title>
+    <script type="text/javascript" src="../libs/jquery-3.7.0.min.js"></script>
+    <script type="text/javascript" src="../libs/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="api-roots.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        #contenu {margin:5px 0px;}
+        #contenu p:hover {
+            cursor:pointer;
+            border:1px dashed black;
+        }
+        #contenu textarea {
+            display:block;
+            width:100%;
+            margin: 3px 0px;
+        }
+    </style>
+
+</head>
 
 <script>
 
@@ -148,19 +169,6 @@
     */
 
 </script>
-
-<style>
-    #contenu {margin:5px 0px;}
-    #contenu p:hover {
-        cursor:pointer;
-        border:1px dashed black;
-    }
-    #contenu textarea {
-        display:block;
-        width:100%;
-        margin: 3px 0px;
-    }
-</style>
 
 <body>
 

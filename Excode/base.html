@@ -1,5 +1,8 @@
-<script type="text/javascript" src="jquery-3.7.0.min.js"></script>
+<script type="text/javascript" src="../libs/jquery-3.7.0.min.js"></script>
+<script type="text/javascript" src="../libs/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="api-roots.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 
 <style>
 	#identification {display:none;}
@@ -12,6 +15,9 @@
     border-radius: 10px; padding: 10px;box-sizing: border-box;} 
 
 	#Cocktails { float:right; width:auto;background-color: lightgrey;}
+	#sortable_ingredients { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	#sortable_ingredients li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+	#sortable_ingredients li span { position: absolute; margin-left: -1.3em; }
 
 
 </style>
@@ -44,17 +50,17 @@
 			$("#Ingredients select").empty(); 
 			for(i=0;i<oRep.ingredients.length;i++) {
 				if (oRep.ingredients[i].alcoolise==true) { // on vérifie si l'ingrédients est alcoolise
-					$("#Ingredients div").append(
-					$("<p>")
+					$("#Ingredients ul").append(
+					$("<li>")
 						.html(oRep.ingredients[i].nom)
 						.data(oRep.ingredients[i])
 						.css("background-color","#F08080")
 					)	
 				}
 				else {
-					$("#Ingredients div").append(
-					$("<p>")
-						.html(oRep.ingredients[i].nom)
+					$("#Ingredients ul").append(
+					$("<li>")
+						.html("<span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>"+oRep.ingredients[i].nom)
 						.data(oRep.ingredients[i])
 						.css("background-color","lightblue")
 					)
@@ -125,7 +131,8 @@
 						$("#pseudo").html("Pseudo : " + cache.pseudo).show();						
 						$("#identification").hide(); 
 						chargerListeIngredient();
-						chargerCocktails(); 
+						chargerCocktails();
+						$( "#sortable_ingredients" ).sortable();
 					},
 					error: function(){
 						$("#msg").html("Erreur d'identification !").show();
@@ -182,9 +189,9 @@
 
 	<fieldset class="hidden" id="Ingredients">
 		<legend>Liste des ingredient</legend>
-			<div>
+			<ul id="sortable_ingredients">
 
-			</div>
+			</ul>
 	</fieldset>
 
 	<fieldset class="hidden" id="Cocktails">
