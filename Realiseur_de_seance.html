@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>séances</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+
+    <!-- Inclure les fichiers JavaScript de FullCalendar et de ses dépendances -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <?php include_once 'fonctions.php'; ?>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<button id="startSeance" data-seance-id="123183">Commencer la séance</button>
+<button id="repeatSeance" data-seance-id="123183" style="display: none;">Répéter la séance</button>
+<button id="stopSeance" style="display: none;">Arrêter la séance</button>
+<div id="exerciseContainer"></div>
+<style>
+
+    .custom-radio {
+        width: 20px;
+        height: 20px;
+        vertical-align: -5px;
+    }
+    .radio-label {
+        display: inline-block;
+        padding: 5px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        margin: 5px;
+    }
+    .custom-event.selected {
+        background-color: #ffc107;  /* Couleur de fond pour la séance sélectionnée */
+        border-color: #ffc107;      /* Couleur de bordure pour la séance sélectionnée */
+        color: #fff;                /* Couleur du texte pour la séance sélectionnée */
+    }
+
+</style>
+<script>
+    var selectedSeanceId;
+    $(document).ready(function() {
+        var exercises = [];
+        var currentExerciseIndex = 0;
+        var timer;
+        var userId = 1;
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "fonctions.php",
+            data: { action: "fetchUserSeances", userId: userId },
+            dataType: "json",
+            success: function(response) {
+                $('#calendar').fullCalendar({
+                    events: response.map(function(seance) {
+                        var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
+                        return {
+                            title: 'Séance ' + seance.ID_seance,
+                            start: eventDate,
+                            id: seance.ID_seance,
+                            className: 'custom-event'
+                        };
+                    }),
+                    eventClick: function(calEvent) {
+                        if ($(this).hasClass('selected')) {
+                            // L'événement est déjà sélectionné, le désélectionner
+                            $(this).removeClass('selected');
+                            selectedSeanceId = null;
+                        } else {
+                            // L'événement n'est pas encore sélectionné, le sélectionner
+                            $('.custom-event').removeClass('selected');
+                            $(this).addClass('selected');
+                            selectedSeanceId = calEvent.id;
+
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#startSeance').click(function() {
+            if (selectedSeanceId) {  // Utilisation de la variable déclarée en haut
+                $(this).hide();
+                $("#calendar").hide();
+                $('#stopSeance').show();
+                $.ajax({
+                    type: "POST",
+                    url: "fonctions.php",
+                    data: { action: "fetchExercises",  seanceId: selectedSeanceId },
+                    dataType: "json",
+                    success: function(response) {
+                        exercises = response;
+                        displayExercise(currentExerciseIndex);
+                    }
+                });
+            } else {
+                alert('Veuillez choisir une séance avant de commencer.');
+            }
+        });
+
+
+        $('#repeatSeance').click(function() {
+            $(this).hide(); // cache le bouton "Répéter la séance"
+
+            $('#startSeance').show(); // montre le bouton "Commencer la séance"
+            currentExerciseIndex = 0; // réinitialise l'index de l'exercice
+        });
+
+        $('#stopSeance').click(function() {
+            // Cache le bouton "Arrêter la séance"
+            $(this).hide();
+            // Montre le bouton "Commencer la séance"
+            $('#startSeance').show();
+            // Vide le conteneur d'exercices
+            $('#exerciseContainer').empty();
+            // Réinitialise l'index de l'exercice courant
+            currentExerciseIndex = 0;
+            // Arrête le timer en cours, s'il y en a un
+            if (timer) {
+                clearInterval(timer);
+            }
+            $('#repeatSeance').hide();
+            $("#calendar").show();
+        });
+
+        function displayExercise(index) {
+            var exercise = exercises[index];
+            var exerciseHtml = `
+    <h2>${exercise.nom}</h2>
+    <img src="${exercise.media}" alt="${exercise.nom}">
+    `;
+            if (exercise.duree > 0) {
+                exerciseHtml += `<p>Durée : <span id="timer">${exercise.duree}</span> secondes</p>`;
+                startTimer(exercise.duree);
+            } else {
+                exerciseHtml += `<p>Quantité : ${exercise.quantite}</p>`;
+            }
+
+            // Ajout du bouton pour passer à l'exercice suivant
+
+            exerciseHtml += `<button id="skipExercise">Passer</button>`; // Bouton pour passer l'exercice
+            $('#exerciseContainer').html(exerciseHtml);
+        }
+
+
+
+// Cliquez sur le bouton "Passer"
+        $(document).on('click', '#skipExercise', function() {
+            if (timer) {
+                clearInterval(timer);
+            }
+            nextExercise();
+
+        });
+
+        function nextExercise() {
+            currentExerciseIndex++;
+            if (currentExerciseIndex < exercises.length) {
+                displayExercise(currentExerciseIndex);
+            } else {
+                endOfSession();
+            }
+        }
+
+        function endOfSession() {
+            $('#exerciseContainer').html('<p>Fin de la séance!</p>');
+            $('#repeatSeance').show(); // montre le bouton "Répéter la séance"
+        }
+
+        function startTimer(duration) {
+            var remaining = duration;
+            timer = setInterval(function() {
+                remaining--;
+                $('#timer').text(remaining);
+                if (remaining <= 0) {
+                    clearInterval(timer);
+                    // Passez à l'exercice suivant
+                    currentExerciseIndex++;
+                    if (currentExerciseIndex < exercises.length) {
+                        displayExercise(currentExerciseIndex);
+                    } else {
+                        $('#exerciseContainer').html('<p>Fin de la séance!</p>');
+                        $('#repeatSeance').show(); // montre le bouton "Répéter la séance"
+                    }
+                }
+            }, 1000);
+        }
+
+        // Cliquez sur le bouton "Suivant"
+        $(document).on('click', '#nextExercise', function() {
+            currentExerciseIndex++;
+            if (currentExerciseIndex < exercises.length) {
+                displayExercise(currentExerciseIndex);
+            } else {
+                $('#exerciseContainer').html('<p>Fin de la séance!</p>');
+                $('#repeatSeance').show(); // montre le bouton "Répéter la séance"
+
+            }
+        });
+    });
+</script>
+<div id="calendar"></div>
+</body>
+</html>
