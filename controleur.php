@@ -31,7 +31,8 @@ session_start();
 			// Connexion //////////////////////////////////////////////////
 
 			case 'deconnexion' :
-						session_destroy();			
+						session_destroy();	
+					$qs="?view=connexion";		
 			break; 
 			
 			case 'Connexion' :
@@ -46,6 +47,19 @@ session_start();
 
 				// On redirigera vers la page index automatiquement
 			break;
+
+			case 'Inscription' :
+				if($pseudo= valider("pseudo"))
+				if($password=valider("password"))
+				if($role=valider("role"))
+				{
+				$reponse=createNewUser($pseudo,$password,$role);
+				}
+				$qs="?view=Inscription&reponse=$reponse";	
+
+
+			break;
+			
 			
 		
 		
@@ -59,11 +73,11 @@ session_start();
 	$urlBase = dirname($_SERVER["PHP_SELF"]) . "/index.php";
 	// On redirige vers la page index avec les bons arguments
 
-	header("Location:" . $urlBase . $qs);
+header("Location:" . $urlBase . $qs);
 	//qs doit contenir le symbole '?'
-
+	
 	// On écrit seulement après cette entête
 	ob_end_flush();
+
 }
-	
 ?>

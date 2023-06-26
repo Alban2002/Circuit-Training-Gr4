@@ -22,6 +22,7 @@ $connecte=false;
 		echo '<input type="submit" name="action" value="Connexion" />';
 		echo '</form>';
 		echo '</div>';
+		echo "<a href='index.php?view=Inscription'>S'inscrire</a>";
 		echo '</div>';
 	}
 	else {

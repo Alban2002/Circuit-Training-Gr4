@@ -3,7 +3,7 @@
 <div id="LieneConnexion" class="selection1" ondblclick="changePage('index.php?view=connexion')">
     <h2 class="titreselec">Se connecter</h2>
 </div>
-<div id="LienInscription" class="selection2">
+<div id="LienInscription" class="selection2" ondblclick="changePage('index.php?view=Inscription')">
     <h2 class="titreselec" >Sincrire</h2>
 </div>
 </div>

@@ -10,12 +10,45 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 
 // inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("maLibSQL.pdo.php");
+include_once("config.php");
 // fournit parcoursRS, SQLSelect, etc. 
 
 
 
 
+function createNewUser($pseudo,$password,$role){
+	global $BDD_host;
+	global $BDD_base;
+	global $BDD_user;
+	global $BDD_password;
+	
+	$SQL = "SELECT * FROM users where pseudo='$pseudo'";
+	$obj= SQLSelect($SQL); 
+	if(!$obj){
+		try {
+		// Connexion à la base de données avec PDO
+		$bdd = new PDO("mysql:host=$BDD_host;dbname=$BDD_base", $BDD_user, $BDD_password);
+		$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		// Préparation de la requête SQL
+		$sql = "INSERT INTO users(pseudo,password,role)";
+		$sql .= "VALUES ('$pseudo', '$password', '$role')";
+		$stmt = $bdd->prepare($sql);
+		$stmt->execute();
+		
+			// Réponse de succès à renvoyer au client
+		$response = "Inscription effectuée avec succès !";
+		echo $response;
+		return $response;
+		} catch(PDOException $e) {
+			// En cas d'erreur, renvoyer un message d'erreur au client
+		$error = "Erreur lors de l'inscription' : " . $e->getMessage();
+		return $error;
+		}
+	}
+	else{return "Ce pseudo existe déjà";}
 
+
+}
 
 function verifUserBdd($login,$passe)
 {
