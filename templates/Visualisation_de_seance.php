@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/fr.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <?php include_once '../libs/fonctions_Visualisation_de_seance.php'; ?>
     <meta charset="UTF-8">
@@ -178,12 +179,17 @@
 
 </style>
 <script>
+
+
     var selectedSeanceId;
     $(document).ready(function() {
         var exercises = [];
         var currentExerciseIndex = 0;
         var timer;
         var userId = 1;
+
+
+
 
 
         $(document).click(function(e) {
@@ -267,6 +273,7 @@
             dataType: "json",
             success: function(response) {
                 $('#calendar').fullCalendar({
+                    locale: 'fr',
                     events: formatEvents(response),
                     eventClick: function(calEvent, jsEvent, view) {
                         // Vérifier si l'élément est déjà sélectionné
