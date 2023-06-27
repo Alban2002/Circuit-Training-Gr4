@@ -31,7 +31,19 @@ class SeanceManager
 
         return $seances;
     }
+    public function updateSeanceStatus($seanceId, $status)
+    {
+        $query = "
+        UPDATE attribution_seance
+        SET statut_seance = :status
+        WHERE ID_seance = :seanceId
+    ";
 
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':seanceId', $seanceId, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->execute();
+    }
     public function fetchExercises($seanceId)
     {
         $query = "SELECT e.ID_exo, e.description, e.nom, e.media, cs.duree, cs.quantite 
@@ -100,6 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if (isset($_POST['seanceId'])) {
                 $seanceDetails = $seanceManager->fetchSeanceDetails($_POST['seanceId']);
                 echo json_encode($seanceDetails);
+            }
+            break;
+        case 'updateSeanceStatus':
+            if (isset($_POST['seanceId']) && isset($_POST['status'])) {
+                $seanceManager->updateSeanceStatus($_POST['seanceId'], $_POST['status']);
             }
             break;
 

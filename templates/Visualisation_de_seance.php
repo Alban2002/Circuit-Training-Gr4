@@ -198,6 +198,67 @@
             }
         });
 
+        function formatEvents(seances) {
+            return seances.map(function(seance) {
+                var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
+                let className;
+                switch (seance.statut_seance) {
+                    case 'a faire':
+                        className = 'custom-event to-do';
+                        break;
+                    case 'non fait':
+                        className = 'custom-event missed';
+                        break;
+                    case 'fait':
+                        className = 'custom-event done';
+                        break;
+                    default:
+                        className = 'custom-event';
+                        break;
+                }
+                return {
+                    title: 'Séance' ,
+                    start: eventDate,
+                    id: seance.ID_seance,
+                    className: className
+                };
+            });
+        }
+
+
+        function formatEvents(seances) {
+            return seances.map(function(seance) {
+                var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
+                let className;
+                switch (seance.statut_seance) {
+                    case 'a faire':
+                        className = 'custom-event to-do';
+                        break;
+                    case 'non fait':
+                        className = 'custom-event missed';
+                        break;
+                    case 'fait':
+                        className = 'custom-event done';
+                        break;
+                    default:
+                        className = 'custom-event';
+                        break;
+                }
+                return {
+                    title: 'Séance' ,
+                    start: eventDate,
+                    id: seance.ID_seance,
+                    className: className
+                };
+            });
+        }
+
+
+
+
+
+
+
 
         $.ajax({
             type: "POST",
@@ -206,30 +267,7 @@
             dataType: "json",
             success: function(response) {
                 $('#calendar').fullCalendar({
-                    events: response.map(function(seance) {
-                        var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
-                        let className;
-                        switch (seance.statut_seance) {
-                            case 'a faire':
-                                className = 'custom-event to-do';
-                                break;
-                            case 'non fait':
-                                className = 'custom-event missed';
-                                break;
-                            case 'fait':
-                                className = 'custom-event done';
-                                break;
-                            default:
-                                className = 'custom-event';
-                                break;
-                        }
-                        return {
-                            title: 'Séance' ,
-                            start: eventDate,
-                            id: seance.ID_seance,
-                            className: className
-                        };
-                    }),
+                    events: formatEvents(response),
                     eventClick: function(calEvent, jsEvent, view) {
                         // Vérifier si l'élément est déjà sélectionné
                         if ($(this).hasClass('selected')) {
@@ -274,6 +312,8 @@
             }
         });
 
+
+
         $('#startSeance').click(function() {
             if (selectedSeanceId) {  // Utilisation de la variable déclarée en haut
                 $(this).hide();
@@ -289,10 +329,38 @@
                         displayExercise(currentExerciseIndex);
                     }
                 });
+                $.ajax({
+                    type: "POST",
+                    url: "../libs/fonctions_Visualisation_de_seance.php",
+                    data: {
+                        action: "updateSeanceStatus",
+                        seanceId: selectedSeanceId,
+                        status: 'fait'
+
+
+                    },
+
+
+
+                    success: function() {
+                        $.ajax({
+                            type: "POST",
+                            url: "../libs/fonctions_Visualisation_de_seance.php",
+                            data: { action: "fetchUserSeances", userId: userId },
+                            dataType: "json",
+                            success: function(response) {
+                                $('#calendar').fullCalendar('removeEvents');
+                                $('#calendar').fullCalendar('addEventSource', formatEvents(response));
+                                $('#calendar').fullCalendar('rerenderEvents');
+                            }
+                        });
+                    },
+                });
             } else {
                 alert('Veuillez choisir une séance avant de commencer.');
             }
         });
+
 
 
         $('#repeatSeance').click(function() {
@@ -317,6 +385,7 @@
             }
             $('#repeatSeance').hide();
             $("#calendar").show();
+
         });
 
         function displayExercise(index) {
@@ -413,6 +482,7 @@
             }
         });
     });
+
 </script>
 <div id="calendar"></div>
 <div id="seanceDetails" style="display: none;">
