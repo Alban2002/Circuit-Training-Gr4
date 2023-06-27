@@ -42,6 +42,10 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates\Inscription.php");
 		break;
 
+		case "Realiseur_de_seance" :
+			include("templates\realisateur_de_seance.php");
+		break;
+
 
 
 
