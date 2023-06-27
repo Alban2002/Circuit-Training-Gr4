@@ -20,7 +20,45 @@
 <button id="stopSeance" style="display: none;">Arrêter la séance</button>
 <div id="exerciseContainer"></div>
 <style>
+    #startSeance{
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px 0;
+        color: #fff;
+        background-color: Green;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
 
+
+    }
+#stopSeance{
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+
+
+}
+
+
+
+    #repeatSeance{
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px 0;
+        color: #fff;
+        background-color: Green;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+
+
+    }
     .custom-radio {
         width: 20px;
         height: 20px;
@@ -40,7 +78,7 @@
         color: #fff;                /* Couleur du texte pour la séance sélectionnée */
     }
 
-    /* CSS */
+
     #seanceDetails {
         position: fixed;
         z-index: 999;
@@ -80,6 +118,45 @@
         z-index: 2; /* Assure que l'élément s'affiche par-dessus les autres éléments */
         border: 1px solid lightgrey; /* Ajoute une bordure autour de l'élément */
     }
+
+    .exercise-info {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .exercise-title {
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .exercise-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .exercise-duration, .exercise-quantity {
+        font-size: 1.2em;
+        color: #666;
+    }
+
+    /* bouton pou afficher description exo*/
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px 0;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .btn-skip {
+        background-color: orange;
+        margin: 10px;
+    }
+
 
 </style>
 <script>
@@ -212,22 +289,24 @@
         function displayExercise(index) {
             var exercise = exercises[index];
             var exerciseHtml = `
-        <h2>${exercise.nom}</h2>
-        <img src="${exercise.media}" alt="${exercise.nom}">
+        <div class="exercise-info">
+            <h2 class="exercise-title">${exercise.nom}</h2>
+            <img class="exercise-image" src="${exercise.media}" alt="${exercise.nom}">
+        </div>
     `;
 
             if (exercise.duree > 0) {
-                exerciseHtml += `<p>Durée : <span id="timer">${exercise.duree}</span> secondes</p>`;
+                exerciseHtml += `<p class="exercise-duration">Durée : <span id="timer">${exercise.duree}</span> secondes</p>`;
                 startTimer(exercise.duree);
             } else {
-                exerciseHtml += `<p>Quantité : ${exercise.quantite}</p>`;
+                exerciseHtml += `<p class="exercise-quantity">Quantité : ${exercise.quantite}</p>`;
             }
 
             // Ajout du bouton pour afficher la description de l'exercice
-            exerciseHtml += `<button id="toggleDescription">Description de l'exercice</button>`;
+            exerciseHtml += `<button id="toggleDescription" class="btn">Description de l'exercice</button>`;
 
             // Ajout du bouton pour passer à l'exercice suivant
-            exerciseHtml += `<button id="skipExercise">Passer</button>`; // Bouton pour passer l'exercice
+            exerciseHtml += `<button id="skipExercise" class="btn btn-skip">Passer</button>`; // Bouton pour passer l'exercice
 
             $('#exerciseContainer').html(exerciseHtml);
 
@@ -235,12 +314,13 @@
             $('#toggleDescription').on('click', function() {
                 // Si le conteneur de la description est actuellement caché, afficher la description. Sinon, le cacher.
                 if ($('#descriptionContainer').is(':hidden')) {
-                    $('#descriptionContainer').html(`<h2>${exercise.description}</h2>`).show();
+                    $('#descriptionContainer').html(`<h2 class="exercise-description">${exercise.description}</h2>`).show();
                 } else {
                     $('#descriptionContainer').hide();
                 }
             });
         }
+
 
 
 
