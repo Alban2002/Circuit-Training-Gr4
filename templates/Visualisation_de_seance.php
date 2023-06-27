@@ -224,7 +224,7 @@
                                 break;
                         }
                         return {
-                            title: 'Séance ' ,
+                            title: 'Séance' ,
                             start: eventDate,
                             id: seance.ID_seance,
                             className: className
