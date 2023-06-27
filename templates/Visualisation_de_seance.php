@@ -72,8 +72,9 @@
         background-color: #f5f5f5;
         margin: 5px;
     }
-    .custom-event.selected {
-        background-color: #ffc107;  /* Couleur de fond pour la séance sélectionnée */
+    .fc-event.selected {
+
+        background-color: #ffc107 !important;  /* Couleur de fond pour la séance sélectionnée */
         border-color: #ffc107;      /* Couleur de bordure pour la séance sélectionnée */
         color: #fff;                /* Couleur du texte pour la séance sélectionnée */
     }
@@ -156,6 +157,23 @@
         background-color: orange;
         margin: 10px;
     }
+    .custom-event.to-do {
+        background-color: lightblue;
+        border-color: #E3F8FF;
+    }
+    .custom-event.missed {
+        background-color: orangered;
+        border-color: #FECFC5;
+    }
+    .custom-event.done {
+        background-color: #B9F5BF;
+        border-color: #E3FFE6;
+    }
+    .fc-title {
+        color: #2C2C2C;
+
+    }
+
 
 
 </style>
@@ -190,14 +208,29 @@
                 $('#calendar').fullCalendar({
                     events: response.map(function(seance) {
                         var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
+                        let className;
+                        switch (seance.statut_seance) {
+                            case 'a faire':
+                                className = 'custom-event to-do';
+                                break;
+                            case 'non fait':
+                                className = 'custom-event missed';
+                                break;
+                            case 'fait':
+                                className = 'custom-event done';
+                                break;
+                            default:
+                                className = 'custom-event';
+                                break;
+                        }
                         return {
                             title: 'Séance ' ,
                             start: eventDate,
                             id: seance.ID_seance,
-                            className: 'custom-event'
+                            className: className
                         };
                     }),
-                    eventClick: function(calEvent) {
+                    eventClick: function(calEvent, jsEvent, view) {
                         // Vérifier si l'élément est déjà sélectionné
                         if ($(this).hasClass('selected')) {
                             // Désélectionner l'élément
@@ -208,7 +241,7 @@
                             $('#seanceDetails').hide();
                         } else {
                             // Désélectionner toutes les autres séances
-                            $('.custom-event').removeClass('selected');
+                            $('.fc-event').removeClass('selected');
                             // Sélectionner l'élément actuellement cliqué
                             $(this).addClass('selected');
                             // Récupérer l'ID de la séance sélectionnée
