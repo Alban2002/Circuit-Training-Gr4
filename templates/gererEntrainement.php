@@ -7,6 +7,8 @@
     <script type="text/javascript" src="../libs/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../libs/api-roots.js"></script>
     <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css">
+
+    <?php include_once 'fonctions_gererEntrainement.php'; ?>
     <style>
         #contenu {margin:5px 0px;}
         #contenu p:hover {
@@ -82,6 +84,28 @@
         // inserer btn + en haut / bas
         $("#contenu").before(divBtnPlus.clone(true));
         $("#contenu").after(divBtnPlus.clone(true));
+
+        //Requête AJAX pour récupérer les exercices
+        var exercises = [];
+        var currentExerciseIndex = 0;
+        var timer;
+        var userId = 1;
+        var seanceId = 123183;
+
+
+        console.log("ajax");
+        $.ajax({
+            type: "POST",
+            url: "fonctions_gererEntrainement.php",
+            data: { action: "fetchListeExercises",  userId: userId },
+            dataType: "json",
+            success: function(response) {
+                console.log("success");
+                exercises = response;
+                console.log(exercises);
+            }
+        });
+
 
         $("#contenu").sortable();
 
