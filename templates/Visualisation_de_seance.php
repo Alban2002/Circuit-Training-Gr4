@@ -54,6 +54,21 @@
         border-radius: 10px;  /* Rounded corners */
     }
 
+    #descriptionContainer {
+        position: fixed;
+        z-index: 999;
+        top: 20px;  /* Adjust this to set the distance from the top */
+        right: 20px;  /* Adjust this to set the distance from the right */
+        width: 300px;  /* Width of the box */
+        height: auto;  /* Height will adjust based on content */
+        padding: 20px;  /* Padding around content */
+        background: rgba(0,0,0,0.5);  /* Semi-opaque background */
+        color: white;  /* Text color */
+        border-radius: 10px;  /* Rounded corners */
+    }
+
+
+
     #calendar {
         position: absolute; /* Utilise le positionnement absolu par rapport à l'élément parent */
         top: 50px; /* Déplace l'élément en haut de la page */
@@ -81,7 +96,13 @@
             if ($(e.target).closest("#seanceDetails").length === 0) {
                 $("#seanceDetails").hide();
             }
+
+            // Si l'utilisateur clique en dehors de #descriptionContainer, alors on le cache
+            if ($(e.target).closest("#descriptionContainer").length === 0 && !$(e.target).is('#toggleDescription')) {
+                $("#descriptionContainer").hide();
+            }
         });
+
 
         $.ajax({
             type: "POST",
@@ -127,7 +148,7 @@
                                     var seance = response[0];
                                     $('#seanceDescription').text('Description: ' + seance.description);
                                     $('#seanceDifficulte').text('Difficulté: ' + seance.difficulte);
-                                    $('#seanceDuree').text('Durée: ' + seance.duree);
+                                    $('#seanceDuree').text('Durée: ' + seance.duree + ' minutes');
                                     $('#seanceType').text('Type: ' + seance.type);
 
                                     // Afficher le menu déroulant
