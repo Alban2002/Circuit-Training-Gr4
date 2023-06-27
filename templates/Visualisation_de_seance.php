@@ -75,8 +75,10 @@
     }
     .fc-event.selected {
 
+        
         background-color: #ffc107 !important;  /* Couleur de fond pour la séance sélectionnée */
-        border-color: #ffc107;      /* Couleur de bordure pour la séance sélectionnée */
+
+        border-color: #000000 !important;      /* Couleur de bordure pour la séance sélectionnée */
         color: #fff;                /* Couleur du texte pour la séance sélectionnée */
     }
 
