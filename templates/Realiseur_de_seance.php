@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <?php include_once 'fonctions.php'; ?>
+    <?php include_once '../libs/fonctions.php'; ?>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -40,6 +40,21 @@
         color: #fff;                /* Couleur du texte pour la séance sélectionnée */
     }
 
+    /* CSS */
+    #seanceDetails {
+        position: fixed;
+        z-index: 999;
+        top: 20px;  /* Adjust this to set the distance from the top */
+        right: 20px;  /* Adjust this to set the distance from the right */
+        width: 300px;  /* Width of the box */
+        height: auto;  /* Height will adjust based on content */
+        padding: 20px;  /* Padding around content */
+        background: rgba(0,0,0,0.5);  /* Semi-opaque background */
+        color: white;  /* Text color */
+        border-radius: 10px;  /* Rounded corners */
+    }
+
+
 </style>
 <script>
     var selectedSeanceId;
@@ -50,10 +65,16 @@
         var userId = 1;
 
 
+        $(document).click(function(e) {
+            // Si l'utilisateur clique en dehors de #seanceDetails, alors on le cache
+            if ($(e.target).closest("#seanceDetails").length === 0) {
+                $("#seanceDetails").hide();
+            }
+        });
 
         $.ajax({
             type: "POST",
-            url: "fonctions.php",
+            url: "../libs/fonctions.php",
             data: { action: "fetchUserSeances", userId: userId },
             dataType: "json",
             success: function(response) {
@@ -68,18 +89,45 @@
                         };
                     }),
                     eventClick: function(calEvent) {
+                        // Vérifier si l'élément est déjà sélectionné
                         if ($(this).hasClass('selected')) {
-                            // L'événement est déjà sélectionné, le désélectionner
+                            // Désélectionner l'élément
                             $(this).removeClass('selected');
+                            // Réinitialiser l'ID de la séance sélectionnée
                             selectedSeanceId = null;
+                            // Cacher le menu déroulant
+                            $('#seanceDetails').hide();
                         } else {
-                            // L'événement n'est pas encore sélectionné, le sélectionner
+                            // Désélectionner toutes les autres séances
                             $('.custom-event').removeClass('selected');
+                            // Sélectionner l'élément actuellement cliqué
                             $(this).addClass('selected');
+                            // Récupérer l'ID de la séance sélectionnée
                             selectedSeanceId = calEvent.id;
 
+                            // Faire une requête AJAX pour obtenir les détails de la séance
+                            $.ajax({
+                                type: "POST",
+                                url: "../libs/fonctions.php",
+                                data: { action: "fetchSeanceDetails", seanceId: selectedSeanceId },
+                                dataType: "json",
+                                success: function(response) {
+                                    // Mettre à jour les détails de la séance dans le menu déroulant
+                                    var seance = response[0];
+                                    $('#seanceDescription').text('Description: ' + seance.description);
+                                    $('#seanceDifficulte').text('Difficulté: ' + seance.difficulte);
+                                    $('#seanceDuree').text('Durée: ' + seance.duree);
+                                    $('#seanceType').text('Type: ' + seance.type);
+
+                                    // Afficher le menu déroulant
+                                    $('#seanceDetails').show();
+                                }
+                            });
                         }
                     }
+
+
+
                 });
             }
         });
@@ -91,7 +139,7 @@
                 $('#stopSeance').show();
                 $.ajax({
                     type: "POST",
-                    url: "fonctions.php",
+                    url: "../libs/fonctions.php",
                     data: { action: "fetchExercises",  seanceId: selectedSeanceId },
                     dataType: "json",
                     success: function(response) {
@@ -206,5 +254,13 @@
     });
 </script>
 <div id="calendar"></div>
+<div id="seanceDetails" style="display: none;">
+    <h3>Détails de la séance</h3>
+    <p id="seanceDescription"></p>
+    <p id="seanceDifficulte"></p>
+    <p id="seanceDuree"></p>
+    <p id="seanceType"></p>
+</div>
+
 </body>
 </html>

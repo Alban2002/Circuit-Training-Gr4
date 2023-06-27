@@ -48,6 +48,22 @@ class SeanceManager
 
         return $exercises;
     }
+    public function fetchSeanceDetails($seanceId)
+    {
+        $query = "
+            SELECT description, difficulte, duree, type 
+            FROM seance
+            WHERE ID_seance = :seanceId
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':seanceId', $seanceId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $seanceDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $seanceDetails;
+    }
 
     // Vous pouvez ajouter d'autres méthodes pour d'autres fonctionnalités ici
 }
@@ -80,7 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
             break;
 
-        // ...
+        case 'fetchSeanceDetails':
+            if (isset($_POST['seanceId'])) {
+                $seanceDetails = $seanceManager->fetchSeanceDetails($_POST['seanceId']);
+                echo json_encode($seanceDetails);
+            }
+            break;
+
+
     }
 }
 
