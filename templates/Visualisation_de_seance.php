@@ -115,7 +115,7 @@
         position: absolute; /* Utilise le positionnement absolu par rapport à l'élément parent */
         top: 50px; /* Déplace l'élément en haut de la page */
         left: 0; /* Déplace l'élément à gauche de la page */
-        width: 65%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
+        width: 70%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
         height: auto; /* La hauteur de l'élément s'adapte au contenu */
         background-color: white; /* Couleur de fond de l'élément */
         padding: 10px; /* Ajoute un espace entre le contenu et les bords de l'élément */
@@ -228,38 +228,14 @@
                     title: 'Séance' ,
                     start: eventDate,
                     id: seance.ID_seance,
-                    className: className
+                    className: className,
+                    statut_seance: seance.statut_seance // Ajout de cette ligne
                 };
             });
         }
 
 
-        function formatEvents(seances) {
-            return seances.map(function(seance) {
-                var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
-                let className;
-                switch (seance.statut_seance) {
-                    case 'a faire':
-                        className = 'custom-event to-do';
-                        break;
-                    case 'non fait':
-                        className = 'custom-event missed';
-                        break;
-                    case 'fait':
-                        className = 'custom-event done';
-                        break;
-                    default:
-                        className = 'custom-event';
-                        break;
-                }
-                return {
-                    title: 'Séance' ,
-                    start: eventDate,
-                    id: seance.ID_seance,
-                    className: className
-                };
-            });
-        }
+
 
 
 
@@ -308,6 +284,7 @@
                                     $('#seanceDifficulte').text('Difficulté: ' + seance.difficulte);
                                     $('#seanceDuree').text('Durée: ' + seance.duree + ' minutes');
                                     $('#seanceType').text('Type: ' + seance.type);
+                                    $('#seanceStatut').text('Statut de la séance: ' + calEvent.statut_seance); // Utilisation de calEvent.statut_seance ici
 
                                     // Afficher le menu déroulant
                                     $('#seanceDetails').show();
@@ -315,6 +292,7 @@
                             });
                         }
                     }
+
 
 
 
@@ -501,6 +479,7 @@
     <p id="seanceDifficulte"></p>
     <p id="seanceDuree"></p>
     <p id="seanceType"></p>
+    <p id="seanceStatut"></p>
 </div>
 
 <div id="descriptionContainer" style="display:none;"></div>
