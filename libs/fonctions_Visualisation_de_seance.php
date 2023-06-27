@@ -17,7 +17,7 @@ class SeanceManager
     public function fetchUserSeances($userId)
     {
         $query = "
-            SELECT as1.ID_seance, as1.date 
+            SELECT as1.ID_seance, as1.date , as1.statut_seance 
             FROM attribution_seance as1
             WHERE as1.ID_user = :userId
             ORDER BY as1.date ASC
