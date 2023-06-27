@@ -273,7 +273,8 @@
             dataType: "json",
             success: function(response) {
                 $('#calendar').fullCalendar({
-                    locale: 'fr',
+                    locale: 'fr', //patch fr
+                    displayEventTime: false, //patche heur
                     events: formatEvents(response),
                     eventClick: function(calEvent, jsEvent, view) {
                         // Vérifier si l'élément est déjà sélectionné
