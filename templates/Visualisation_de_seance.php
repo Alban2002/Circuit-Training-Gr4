@@ -54,6 +54,17 @@
         border-radius: 10px;  /* Rounded corners */
     }
 
+    #calendar {
+        position: absolute; /* Utilise le positionnement absolu par rapport à l'élément parent */
+        top: 50px; /* Déplace l'élément en haut de la page */
+        left: 0; /* Déplace l'élément à gauche de la page */
+        width: 65%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
+        height: auto; /* La hauteur de l'élément s'adapte au contenu */
+        background-color: white; /* Couleur de fond de l'élément */
+        padding: 10px; /* Ajoute un espace entre le contenu et les bords de l'élément */
+        z-index: 2; /* Assure que l'élément s'affiche par-dessus les autres éléments */
+        border: 1px solid lightgrey; /* Ajoute une bordure autour de l'élément */
+    }
 
 </style>
 <script>
@@ -82,7 +93,7 @@
                     events: response.map(function(seance) {
                         var eventDate = moment(seance.date, 'YYYY-MM-DD').toDate();
                         return {
-                            title: 'Séance ' + seance.ID_seance,
+                            title: 'Séance ' ,
                             start: eventDate,
                             id: seance.ID_seance,
                             className: 'custom-event'
@@ -180,9 +191,10 @@
         function displayExercise(index) {
             var exercise = exercises[index];
             var exerciseHtml = `
-    <h2>${exercise.nom}</h2>
-    <img src="${exercise.media}" alt="${exercise.nom}">
+        <h2>${exercise.nom}</h2>
+        <img src="${exercise.media}" alt="${exercise.nom}">
     `;
+
             if (exercise.duree > 0) {
                 exerciseHtml += `<p>Durée : <span id="timer">${exercise.duree}</span> secondes</p>`;
                 startTimer(exercise.duree);
@@ -190,11 +202,26 @@
                 exerciseHtml += `<p>Quantité : ${exercise.quantite}</p>`;
             }
 
-            // Ajout du bouton pour passer à l'exercice suivant
+            // Ajout du bouton pour afficher la description de l'exercice
+            exerciseHtml += `<button id="toggleDescription">Description de l'exercice</button>`;
 
+            // Ajout du bouton pour passer à l'exercice suivant
             exerciseHtml += `<button id="skipExercise">Passer</button>`; // Bouton pour passer l'exercice
+
             $('#exerciseContainer').html(exerciseHtml);
+
+            // Ajout d'un écouteur d'événement pour le bouton "Description de l'exercice"
+            $('#toggleDescription').on('click', function() {
+                // Si le conteneur de la description est actuellement caché, afficher la description. Sinon, le cacher.
+                if ($('#descriptionContainer').is(':hidden')) {
+                    $('#descriptionContainer').html(`<h2>${exercise.description}</h2>`).show();
+                } else {
+                    $('#descriptionContainer').hide();
+                }
+            });
         }
+
+
 
 
 
@@ -261,6 +288,9 @@
     <p id="seanceDuree"></p>
     <p id="seanceType"></p>
 </div>
+
+<div id="descriptionContainer" style="display:none;"></div>
+
 
 </body>
 </html>
