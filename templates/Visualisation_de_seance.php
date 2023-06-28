@@ -418,6 +418,7 @@
                         url: '../libs/fonctions_Visualisation_de_seance.php',
                         type: 'POST',
                         data: {
+                            action: 'saveFeedback',
                             seanceId: selectedSeanceId,
                             rating: rating
                         },
