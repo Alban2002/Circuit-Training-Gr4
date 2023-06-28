@@ -42,8 +42,16 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates\Inscription.php");
 		break;
 
-		case "Realiseur_de_seance" :
-			include("templates\realisateur_de_seance.php");
+		case "Visualisation_de_seance" :
+			include("templates\Visualisation_de_seance.php");
+		break;
+
+		case "gererEntrainement" :
+			include("templates\gererEntrainement.php");
+		break;
+
+		case "test" :
+			include("templates/testUpload.php");
 		break;
 
 

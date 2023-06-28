@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Gestion entrainement</title>
-    <script type="text/javascript" src="../libs/jquery-3.7.0.min.js"></script>
-    <script type="text/javascript" src="../libs/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="../libs/api-roots.js"></script>
-    <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css">
+    <script type="text/javascript" src="libs/jquery-3.7.0.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/api-roots.js"></script>
+    <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.css">
 
-    <?php include_once 'fonctions_gererEntrainement.php'; ?>
+    <?php include_once 'templates/fonctions_gererEntrainement.php'; ?>
     <style>
         #contenu {margin:5px 0px;}
         #contenu p:hover {
@@ -114,7 +114,7 @@
         console.log("ajax");
         $.ajax({
             type: "POST",
-            url: "fonctions_gererEntrainement.php",
+            url: "templates/fonctions_gererEntrainement.php",
             data: { action: "fetchListeExercises",  userId: userId },
             dataType: "json",
             success: function(response) {
