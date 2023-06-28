@@ -17,10 +17,11 @@ class SeanceManager
     public function fetchUserSeances($userId)
     {
         $query = "
-            SELECT as1.ID_seance, as1.date , as1.statut_seance 
-            FROM attribution_seance as1
-            WHERE as1.ID_user = :userId
-            ORDER BY as1.date ASC
+            SELECT as1.ID_seance, as1.date , as1.statut_seance, s.nom
+        FROM attribution_seance as1
+        JOIN seance s ON s.ID_seance = as1.ID_seance
+        WHERE as1.ID_user = :userId
+        ORDER BY as1.date ASC
         ";
 
         $stmt = $this->db->prepare($query);
