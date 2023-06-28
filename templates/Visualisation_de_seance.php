@@ -229,7 +229,7 @@
                     start: eventDate,
                     id: seance.ID_seance,
                     className: className,
-                    statut_seance: seance.statut_seance // Ajout de cette ligne
+                    statut_seance: seance.statut_seance // Ajout de cette ligne qui créé un calEvent
                 };
             });
         }
