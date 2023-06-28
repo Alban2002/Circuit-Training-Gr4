@@ -16,36 +16,36 @@ if(isset($_POST["action"])) {
 
   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
   if($check !== false) {
-    echo "File is an image - " . $check["mime"] . ".";
+    $reponse ="File is an image - " . $check["mime"] . ".";
     $uploadOk = 1;
   } else {
-    echo "File is not an image.";
+    $reponse ="File is not an image.";
     $uploadOk = 0;
   }
 }
 
 // Vérifie si le fichier existe déjà
 if (file_exists($target_file)) {
-  echo "Sorry, file already exists.";
+  $reponse ="Sorry, file already exists.";
   $uploadOk = 0;
 }
 
 // Vérifie la taille du fichier
 if ($_FILES["fileToUpload"]["size"] > 50000000) {
-  echo "Sorry, your file is too large.";
+  $reponse ="Sorry, your file is too large.";
   $uploadOk = 0;
 }
 
 // Autorise certains formats de fichiers
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-  echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  $reponse ="Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
   $uploadOk = 0;
 }
 
 // Vérifie si $uploadOk est défini à 0 par une erreur
 if ($uploadOk == 0) {
-  echo "Sorry, your file was not uploaded.";
+  $reponse ="Sorry, your file was not uploaded.";
 // Si tout va bien, essayez d'uploader le fichier
 } else {
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -58,6 +58,7 @@ if ($uploadOk == 0) {
   } else {
     $reponse= "Sorry, there was an error uploading your file.";
   }
+  $qs="?view=CreerExercice&reponse=$reponse";
   $urlBase = dirname($_SERVER["PHP_SELF"]) . "/index.php";
   header("Location:" . $urlBase . $qs);
 }
