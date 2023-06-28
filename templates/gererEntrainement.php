@@ -21,18 +21,44 @@
             margin: 3px 0px;
         }
         #contenu { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-        #contenu li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+        #contenu li { margin: 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
         #contenu li span { position: absolute; margin-left: -1.3em; }
+        #contenu li input { width: 20px }
+        #contenu li label { margin-left: 20px; font-size: small }
+
+        #seance_form {
+            display: inline;
+        }
+
+        #createurSeance{
+            display: none;
+        }
     </style>
 </head>
 
 <script>
     var exercises = [];
-    var currentExerciseIndex = 0;
-    var timer;
     var userId = 1;
     var seanceId = 123183;
 
+    function getSeanceValues() {
+        var values = {};
+
+        // Récupérer les valeurs des champs de saisie
+        values.nom = $("#nom_seance").val();
+        values.description = $("#description_seance").val();
+        values.duree = $("#duree_seance").val();
+
+        // Récupérer la valeur du bouton radio sélectionné
+        values.difficulte = $("input[name='difficulte']:checked").val();
+
+        // Récupérer la valeur de la séance sélectionnée dans la liste déroulante
+        values.type_seance = $("#type_seance").val();
+        $('#seance_form').hide();
+        $('#createurSeance').show();
+        $('h2').eq(0).html("Séance : " + values.nom);
+        return values;
+    }
 
     function findExerciseByName(exerciseName) {
         for (var i = 0; i < exercises.length; i++) {
@@ -86,6 +112,24 @@
                 jClone.data('configurateur',selectedExercise.configurateur);
                 console.log("jClone");
                 console.log(jClone.data());
+
+                // Create input field
+                var inputField = $('<input>').attr('type', 'text');
+
+                // Determine the label based on the configurateur
+                var configurateurLabel = '';
+                if (selectedExercise.configurateur === 'duree') {
+                    configurateurLabel = 'Durée (s):';
+                } else if (selectedExercise.configurateur === 'quantite') {
+                    configurateurLabel = 'Quantité:';
+                }
+
+                // Create label element
+                var label = $('<label>').text(configurateurLabel);
+
+                // Add label and input field to jClone
+                jClone.append(label, inputField);
+
                 if ($("input[value='+']").index($(this)) == 0) {
                     // en haut
                     $("#contenu").prepend(jClone);
@@ -106,6 +150,7 @@
 
     // quand doc pret
     $(document).ready(function(){
+
         // inserer l'ajout d'exercice
         $("#contenu").before(divBtnPlus.clone(true));
         $("#contenu").before('<h3>Séance en construction</h3>');
@@ -138,56 +183,54 @@
             }
         });
         $("#contenu").sortable(); //Permettre le réarrangement des exercices
-    }); // fin quand doc pret
 
-    var jTa = $("<textarea class='tags'>")
-        .keydown(function(contexte){
-            // On vient d'appuyer sur une touche
-            // alors qu'on était dans le ta.
-            // laquelle ?
+        var seanceValues;
+        //Soumettre le formulaire de création de séance avant de construire la séance
+        $("#seance_form").submit(function(event) {
+            event.preventDefault();
 
-            //console.log(contexte.which);
-            if (contexte.which == 13) {
-                // appui sur entree
-                // AVANT que ce saut de ligne ne soit inséré
-                // dans le textarea
-                // On supprime le textarea
-                // On le remplace par un P.
-                var content =  $(this).val();
-                $(this).replaceWith(mkP(content));
-            }
+            // Appeler la fonction getSeanceValues pour obtenir les valeurs saisies
+            seanceValues = getSeanceValues();
+
+            // Faire quelque chose avec les valeurs récupérées
+            console.log(seanceValues);
+
+            // Réinitialiser le formulaire
+            //$("#seance_form")[0].reset();
         });
 
-    function mkTextarea(contenu) {
-        // recup contenu P.
-        // => refJP.html()
-        // créer un textarea avec le mm contenu
-        // Et un comportement sur keyDown sur ENTREE
+        var seance = []; // Variable pour stocker les exercices de la séance
 
-        // ON AJOUTE UNE META-DONNEE au textarea
-        // correspondant à la valeur actuelle du P.
-        var jCTa = jTa.clone(true);
-        jCTa
-            .val(contenu)
-            .data("contenuInitial",contenu);
-        return jCTa;
-    }
+        // Gestionnaire de clic sur le bouton "Enregistrer la séance"
+        $('#enregistrer_seance').click(function() {
+            // Réinitialiser la variable de séance
+            seance = [];
 
-    function mkP(contenu) {
-        // recup contenu TA.
-        // => refJTA.val()
-        // créer un P avec le mm contenu
-        var jCP = jP.clone();
-        jCP.html(contenu);
-        return jCP;
-    }
+            // Parcourir la liste des exercices dans #contenu
+            $('#contenu li').each(function(index) {
+                var exerciseData = $(this).data('ID_exo'); // Récupérer les données de l'exercice
+                var exerciseIndex = $(this).index()+1; // Récupérer l'index de l'exercice dans la liste
 
-    /*
-    <textarea>
-    ce contenu : .val()
-    </textarea>
-    */
+                // Ajouter l'exercice et son index à la variable de séance
+                seance.push({
+                    exercice: exerciseData,
+                    index: exerciseIndex
+                });
+            });
 
+            console.log(seance); // Afficher la variable de séance dans la console (à adapter selon vos besoins)
+        });
+
+        // Gestionnaire de clic sur le bouton "Quitter"
+        $('#quitter').click(function() {
+            // Vider la liste des exercices dans #contenu
+            $('#contenu').empty();
+
+            // Masquer le créateur de séance et afficher le formulaire
+            $('#createurSeance').hide();
+            $('#seance_form').show();
+        });
+    }); // fin quand doc pret
 
 </script>
 
@@ -195,12 +238,36 @@
 <h1>Créateur de séance</h1>
 
 <h2>Votre séance</h2>
-<div id="donnees_seance"></div>
-<h2>Ajouter un exercice</h2>
+<form id="seance_form">
+    <p>Nom de la séance :</p>
+    <input id="nom_seance" type="text" /><br>
+    <p>Description de la séance :</p>
+    <input id="description_seance" type="text" /><br>
+    <p>Durée estimée de la séance :</p>
+    <input id="duree_seance" type="text" /><br>
+    <p>Difficulté :</p>
+    <label><input type="radio" name="difficulte" value="facile">Facile</label>
+    <label><input type="radio" name="difficulte" value="intermediaire">Intermédiaire</label>
+    <label><input type="radio" name="difficulte" value="confirme">Confirmé</label><br>
+    <p>Type de séance :</p>
+    <select id="type_seance">
+        <option value="cardio">Cardio</option>
+        <option value="renforcement">Renforcement</option>
+        <option value="endurance">Endurance</option>
+    </select><br>
+    <br>
+    <input type="submit" value="Créer séance" />
+</form>
 
-<ul id="contenu">
+<div id="createurSeance">
+    <input id="enregistrer_seance" type="button" value="enregistrer la séance"/>
+    <input id="quitter" type="button" value="quitter"/>
+    <h2>Ajouter un exercice</h2>
 
-</ul>
+    <ul id="contenu">
+
+    </ul>
+</div>
 
 </body>
 
