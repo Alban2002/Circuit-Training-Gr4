@@ -1,11 +1,19 @@
 <?php
+session_start();
+include_once "libs/maLibSQL.pdo.php";
+
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 // Vérifie si le fichier image est une image réelle ou une image fausse
-if(isset($_POST["submit"])) {
+if(isset($_POST["action"])) {
+  $ID_coach=$_SESSION["idUser"];
+  $configurateur=$_POST["configurateur"];
+  $nom=$_POST["nom"];
+  $description=$_POST["description"];
+
   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
   if($check !== false) {
     echo "File is an image - " . $check["mime"] . ".";
@@ -23,7 +31,7 @@ if (file_exists($target_file)) {
 }
 
 // Vérifie la taille du fichier
-if ($_FILES["fileToUpload"]["size"] > 500000) {
+if ($_FILES["fileToUpload"]["size"] > 50000000) {
   echo "Sorry, your file is too large.";
   $uploadOk = 0;
 }
@@ -41,9 +49,16 @@ if ($uploadOk == 0) {
 // Si tout va bien, essayez d'uploader le fichier
 } else {
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-    echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    $SQL = "INSERT INTO exercices(nom,description,media,ID_coach,configurateur)";
+    $SQL .= "VALUES ('$nom', '$description', '$target_file','$ID_coach','$configurateur')";
+    $insert=SQLInsert($SQL);
+    $reponse= "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    $qs="?view=CreerExercice&reponse=$reponse";
+    
   } else {
-    echo "Sorry, there was an error uploading your file.";
+    $reponse= "Sorry, there was an error uploading your file.";
   }
+  $urlBase = dirname($_SERVER["PHP_SELF"]) . "/index.php";
+  header("Location:" . $urlBase . $qs);
 }
 ?>

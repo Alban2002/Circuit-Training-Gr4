@@ -50,8 +50,8 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates\gererEntrainement.php");
 		break;
 
-		case "test" :
-			include("templates/testUpload.php");
+		case "CreerExercice" :
+			include("templates/CreerExercice.php");
 		break;
 
 
