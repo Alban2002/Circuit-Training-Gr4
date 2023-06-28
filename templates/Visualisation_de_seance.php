@@ -457,18 +457,19 @@
                 }
             }, 1000);
         }
+    /*
+            // Cliquez sur le bouton "Suivant"
+            $(document).on('click', '#nextExercise', function() {
+                currentExerciseIndex++;
+                if (currentExerciseIndex < exercises.length) {
+                    displayExercise(currentExerciseIndex);
+                } else {
+                    $('#exerciseContainer').html('<p>Fin de la séance!</p>');
+                    $('#repeatSeance').show(); // montre le bouton "Répéter la séance"
 
-        // Cliquez sur le bouton "Suivant"
-        $(document).on('click', '#nextExercise', function() {
-            currentExerciseIndex++;
-            if (currentExerciseIndex < exercises.length) {
-                displayExercise(currentExerciseIndex);
-            } else {
-                $('#exerciseContainer').html('<p>Fin de la séance!</p>');
-                $('#repeatSeance').show(); // montre le bouton "Répéter la séance"
-
-            }
-        });
+                }
+            });
+        */
     });
 
 </script>
