@@ -27,11 +27,26 @@
 </head>
 
 <script>
+    var exercises = [];
+    var currentExerciseIndex = 0;
+    var timer;
+    var userId = 1;
+    var seanceId = 123183;
 
+
+    function findExerciseByName(exerciseName) {
+        for (var i = 0; i < exercises.length; i++) {
+            if (exercises[i].nom === exerciseName) {
+                return exercises[i];
+            }
+        }
+        return null; // Exercise not found
+    }
 
     // preparation paragraphe
     var jP = $("<li>")
-        .html("Nouveau P");
+        .html("Nouveau P")
+        .addClass("ui-state-default");
     /*
         comportement au click
         nécessite de cloner avec .clone(true)
@@ -46,6 +61,9 @@
         .click(function(){
             // click sur btn +
             // => $(this) dénote le btn + cliqué
+            console.log($(this).prev().val());
+            var selectedExercise = findExerciseByName($(this).prev().val());
+            console.log(selectedExercise);
             console.log("click +");
 
             var jClone = jP.clone();
@@ -62,18 +80,25 @@
                 jClone.html('<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+lbl);
             }
 
-            if ($("input[value='+']").index($(this)) == 0) {
-                // en haut
-                $("#contenu").prepend(jClone);
-            } else {
-                // en bas
-                $("#contenu").append(jClone);
+            if (selectedExercise != null) {
+                // Add exercise data as a data attribute
+                jClone.data('ID_exo', selectedExercise.ID_exo);
+                jClone.data('configurateur',selectedExercise.configurateur);
+                console.log("jClone");
+                console.log(jClone.data());
+                if ($("input[value='+']").index($(this)) == 0) {
+                    // en haut
+                    $("#contenu").prepend(jClone);
+                } else {
+                    // en bas
+                    $("#contenu").append(jClone);
+                }
             }
 
         }); // fin click  btn +
 
     var divBtnPlus = $("<div>")
-        .append(	$("<input type='text' />")
+        .append(	$("<input class='champTexte' type='text' />")
             .click(function(){
                 $(this).select();
             }))
@@ -81,18 +106,11 @@
 
     // quand doc pret
     $(document).ready(function(){
-        // inserer btn + en haut / bas
+        // inserer l'ajout d'exercice
         $("#contenu").before(divBtnPlus.clone(true));
-        $("#contenu").after(divBtnPlus.clone(true));
+        $("#contenu").before('<h3>Séance en construction</h3>');
 
         //Requête AJAX pour récupérer les exercices
-        var exercises = [];
-        var currentExerciseIndex = 0;
-        var timer;
-        var userId = 1;
-        var seanceId = 123183;
-
-
         console.log("ajax");
         $.ajax({
             type: "POST",
@@ -102,48 +120,24 @@
             success: function(response) {
                 console.log("success");
                 exercises = response;
-                console.log(exercises);
-            }
-        });
+                var exerciseList = $('#contenu');
+                var availableTags = [];
 
+                $.each(exercises, function(index, item) {
+                    //Récupérer les noms des exercices pour créer l'autocomplétion
+                    availableTags.push(item.nom);
+                });
 
-        $("#contenu").sortable();
-
-        // click sur un P de la page
-        // qu'il existe ou pas encore
-        $(document).on("click","#contenu p", function(){
-            var content = $(this).html();
-            $(this).replaceWith(mkTextarea(content));
-        }); // fin click sur un P de la page
-
-        // appui sur ESC dans la page
-        $(document).on("keyup",function(contexte){
-            //console.log(contexte.which);
-            if (contexte.which == 27) {
-                // on veut annuler TOUS LES TEXTAREA
-                $("#contenu textarea").each(function(){
-                    console.log("manipulation de " + $(this).val());
-                    // Il nous faut une solution
-                    // pour stocker le contenu initial
-                    // de chaque paragraphe
-                    // afin de pouvoir annuler l'édition
-                    var lastContent = $(this).data("contenuInitial");
-                    var content = $(this).val();
-                    // on annule
-                    $(this).replaceWith(mkP(lastContent));
-                    // si on voulait valider
-                    // $(this).replaceWith(mkP(content));
+                $(".champTexte").autocomplete({
+                    source: availableTags,
+                    select: function(event, ui) {
+                        var selectedExercise = findExerciseByName(ui.item.value);
+                        console.log(selectedExercise);
+                    }
                 });
             }
         });
-
-
-        // Lors du survol d'un textarea
-        // on affiche ses méta-données
-        $(document).on("mouseover","textarea", function(){
-            console.log($(this).data());
-        });
-
+        $("#contenu").sortable(); //Permettre le réarrangement des exercices
     }); // fin quand doc pret
 
     var jTa = $("<textarea class='tags'>")
@@ -193,43 +187,15 @@
     ce contenu : .val()
     </textarea>
     */
-    $( function() {
-        var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-        ];
-        $( "#tags" ).autocomplete({
-            source: availableTags
-        });
-    } );
+
 
 </script>
 
 <body>
+<h1>Créateur d'exercice</h1>
+<h2>Ajouter un exercice</h2>
 
 <ul id="contenu">
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Premier P. </li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Second P. </li>
 
 </ul>
 

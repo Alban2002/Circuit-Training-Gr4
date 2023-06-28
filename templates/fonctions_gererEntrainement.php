@@ -50,10 +50,9 @@ class SeanceManager
     }
     public function fetchListeExercises($userId)
     {
-        $query = "SELECT * FROM exercices WHERE ID_coach = :=ORDER BY nom ASC";
+        $query = "SELECT * FROM exercices ORDER BY nom ASC";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':coachId', 12, PDO::PARAM_INT);
         $stmt->execute();
 
         $exercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
