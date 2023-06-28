@@ -30,17 +30,11 @@
     </style>
 </head>
 <body>
-    <h1>Bienvenue "insérer nom"</h1>
+    <h1>Bienvenue <?php echo $_SESSION['pseudo']; ?>!</h1>
 
     <a class="button" href="page_seances_preues.php">Mes séances</a>
     <a class="button" href="statistiques.php">Mes statistiques</a>
 
-    <?php
-    foreach ($_SESSION as $key => $value) {
-        echo "Clé : " . $key . ", Valeur : " . $value . "<br>";
-    }
-    ?>
-    
 </body>
 
 </html>
