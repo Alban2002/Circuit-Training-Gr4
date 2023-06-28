@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 28 juin 2023 à 09:29
+-- Généré le : mer. 28 juin 2023 à 11:35
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `attribution_seance` (
   `ID_coach` int NOT NULL,
   `statut_seance` enum('a faire','fait','non fait') NOT NULL,
   `ID_attribution_seance` int NOT NULL,
+  `RessentitSeance` int NOT NULL,
   PRIMARY KEY (`ID_attribution_seance`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -63,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `attribution_seance` (
 -- Déchargement des données de la table `attribution_seance`
 --
 
-INSERT INTO `attribution_seance` (`ID_seance`, `ID_user`, `ID_groupe`, `date`, `ID_coach`, `statut_seance`, `ID_attribution_seance`) VALUES
-(123183, 1, 123, '2023-06-30', 2, 'a faire', 1),
-(12318366, 1, 123, '2023-06-27', 2, 'a faire', 2);
+INSERT INTO `attribution_seance` (`ID_seance`, `ID_user`, `ID_groupe`, `date`, `ID_coach`, `statut_seance`, `ID_attribution_seance`, `RessentitSeance`) VALUES
+(123183, 1, 123, '2023-06-30', 2, 'fait', 1, 4),
+(12318366, 1, 123, '2023-06-27', 2, 'fait', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -155,8 +156,8 @@ CREATE TABLE IF NOT EXISTS `seance` (
 --
 
 INSERT INTO `seance` (`ID_seance`, `nom`, `type`, `description`, `duree`, `difficulte`) VALUES
-(123183, '', 'renforcement', 'Teste pour les devs', 15, 'intermédiaire'),
-(12318366, '', 'renforcement', 'Teste pour les devs', 15, 'intermédiaire');
+(123183, 'Noms1', 'renforcement', 'Teste pour les devs', 15, 'intermédiaire'),
+(12318366, 'NomS2', 'renforcement', 'Teste pour les devs', 15, 'intermédiaire');
 
 -- --------------------------------------------------------
 
