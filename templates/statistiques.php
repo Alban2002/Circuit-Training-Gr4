@@ -1,26 +1,27 @@
 <?php
 
-session_start();
+$BDD_host="localhost";
+$BDD_user="root";
+$BDD_password="";
+$BDD_base="grp4_circuit_training"; // nom de la base de données
 
-if (isset($_SESSION['user_id'])) {
-    $userID = $_SESSION['user_id'];
-} else {
-    // L'utilisateur n'est pas connecté --> rediriger vers la page de connexion/inscription
-}
 
+$db = new PDO("mysql:host=$BDD_host;dbname=$BDD_base", $BDD_user, $BDD_password);
+
+$userID = $_SESSION['idUser'];
 // Requête SQL
-$sql = "SELECT COUNT(*) AS total_seances, SUM(statut_seance = 1) AS seances_effectuees FROM attribution_seance WHERE id_user = $userID AND statut_seance != 0";
-$result = $conn->query($sql);
+$sql = "SELECT COUNT(*) AS total_seances, SUM(statut_seance = 'fait') AS seances_effectuees FROM attribution_seance WHERE ID_user = $userID AND statut_seance != 'a faire' ";
+$result = $db->query($sql);
 
 if ($result) {
-    $row = $result->fetch_assoc();
+    $row = $result->fetch(PDO::FETCH_ASSOC);
     $totalSeances = $row['total_seances'];
     $seancesEffectuees = $row['seances_effectuees'];
 
     // Calcul des pourcentages des séances effectuées
     $pourcentage = ($seancesEffectuees / $totalSeances) * 100;
 } else {
-    echo "Erreur lors de l'exécution de la requête : " . $conn->error;
+    echo "Erreur lors de l'exécution de la requête : " . $db->error;
 }
 ?>
 
@@ -33,7 +34,7 @@ if ($result) {
 
 <body>
     <h1>Statistiques des séances</h1>
-    <canvas id="graphique-seances"></canvas>
+    <canvas id="graphique-seances" style="width: 400px; height: 400px;"></canvas>
 
     <script>
 
@@ -51,7 +52,7 @@ if ($result) {
         };
 
         var options = {
-            responsive: true
+            responsive: false
         };
 
         // Graph
@@ -66,17 +67,6 @@ if ($result) {
             options: options
         });
     </script>
-
-    <?php
-    if ($result) {
-         // Afficher les statistiques
-        echo "Nombre total de séances : " . $totalSeances . "<br>";
-        echo "Nombre de séances effectuées : " . $seancesEffectuees . "<br>";
-        echo "Pourcentage de séances effectuées : " . $pourcentage . "%";
-    } else {
-        echo "Erreur lors de la récupération des statistiques.";
-    }
-    ?>
 
 </body>
 </html>
