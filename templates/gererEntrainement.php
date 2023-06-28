@@ -192,7 +192,10 @@
 </script>
 
 <body>
-<h1>Créateur d'exercice</h1>
+<h1>Créateur de séance</h1>
+
+<h2>Votre séance</h2>
+<div id="donnees_seance"></div>
 <h2>Ajouter un exercice</h2>
 
 <ul id="contenu">
