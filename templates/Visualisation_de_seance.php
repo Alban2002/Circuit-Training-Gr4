@@ -433,6 +433,7 @@
                             $('#exerciseContainer').empty();
                             // Réinitialise l'index de l'exercice courant
                             currentExerciseIndex = 0;
+                            selectedSeanceId = 0;
                             // Arrête le timer en cours, s'il y en a un
                             if (timer) {
                                 clearInterval(timer);
