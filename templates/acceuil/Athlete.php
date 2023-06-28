@@ -12,7 +12,7 @@
 
 <html>
 <head>
-    <title>Bienvenue athlète</title>
+    <title>Bienvenue athlète!</title>
     <style>
         .button {
             display: block;
