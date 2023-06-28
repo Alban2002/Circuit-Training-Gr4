@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS `attribution_seance` (
 
 INSERT INTO `attribution_seance` (`ID_seance`, `ID_user`, `ID_groupe`, `date`, `ID_coach`, `statut_seance`, `ID_attribution_seance`, `RessentitSeance`) VALUES
 (123183, 1, 123, '2023-06-30', 2, 'fait', 1, 4),
-(12318366, 1, 123, '2023-06-27', 2, 'fait', 2, 1);
+(12318366, 1, 123, '2023-06-27', 2, 'fait', 2, 1),
+(1231836, 1, 123, '2023-06-30', 2, 'non fait', 3, 3);
 
 -- --------------------------------------------------------
 
