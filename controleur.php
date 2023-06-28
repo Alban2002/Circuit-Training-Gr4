@@ -9,7 +9,7 @@ session_start();
 	$qs = "";
 	
 
-
+	
 	if ($action = valider("action"))
 	{
 		ob_start ();
