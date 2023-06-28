@@ -177,7 +177,41 @@
 
     }
 
+    #feedbackModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
 
+       color: #e5e5e5;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #submitFeedback{
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px 0;
+        color: #fff;
+        background-color: Green;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+
+
+
+    }
 
 </style>
 <script>
@@ -359,22 +393,63 @@
         });
 
         $('#stopSeance').click(function() {
-            // Cache le bouton "Arrêter la séance"
-            $(this).hide();
-            // Montre le bouton "Commencer la séance"
-            $('#startSeance').show();
-            // Vide le conteneur d'exercices
-            $('#exerciseContainer').empty();
-            // Réinitialise l'index de l'exercice courant
-            currentExerciseIndex = 0;
-            // Arrête le timer en cours, s'il y en a un
-            if (timer) {
-                clearInterval(timer);
-            }
-            $('#repeatSeance').hide();
-            $("#calendar").show();
+            // Créer et afficher une fenêtre modale pour recueillir les commentaires
+            var feedbackModal = '<div id="feedbackModal" >' +
+                '<div class="modal-content" >' +
+                '<h4>Pour 1 étant très facile et 5 étant très compliqués, comment avez-vous trouvé cette séance ?</h4>' +
+                '<p>' +
+                '<input type="radio" name="rating" value="1"> 1 ' +
+                '<input type="radio" name="rating" value="2"> 2 ' +
+                '<input type="radio" name="rating" value="3"> 3 ' +
+                '<input type="radio" name="rating" value="4"> 4 ' +
+                '<input type="radio" name="rating" value="5"> 5 ' +
+                '</p>' +
+                '<button id="submitFeedback">Soumettre</button>' +
+                '</div>' +
+                '</div>';
+            $('body').append(feedbackModal);
 
+            $('#feedbackModal').show();
+
+            $('#submitFeedback').click(function() {
+                var rating = $('input[name="rating"]:checked').val();
+                if (rating) {
+                    $.ajax({
+                        url: '../libs/fonctions_Visualisation_de_seance.php',
+                        type: 'POST',
+                        data: {
+                            seanceId: selectedSeanceId,
+                            rating: rating
+                        },
+                        success: function() {
+                            $('#feedbackModal').remove();
+
+                            // Cache le bouton "Arrêter la séance"
+                            $('#stopSeance').hide();
+                            // Montre le bouton "Commencer la séance"
+                            $('#startSeance').show();
+                            // Vide le conteneur d'exercices
+                            $('#exerciseContainer').empty();
+                            // Réinitialise l'index de l'exercice courant
+                            currentExerciseIndex = 0;
+                            // Arrête le timer en cours, s'il y en a un
+                            if (timer) {
+                                clearInterval(timer);
+                            }
+                            $('#repeatSeance').hide();
+                            $("#calendar").show();
+                        },
+                        error: function() {
+                            alert('Une erreur est survenue lors de la sauvegarde des commentaires');
+                        }
+                    });
+                } else {
+                    alert('Veuillez sélectionner une note');
+                }
+            });
         });
+
+
 
         function displayExercise(index) {
             var exercise = exercises[index];
@@ -482,6 +557,17 @@
     <p id="seanceType"></p>
     <p id="seanceStatut"></p>
 </div>
+
+<form id="feedbackForm" style="display: none;">
+    <h2>Veuillez noter votre séance :</h2>
+    <label><input type="radio" name="rating" value="1"> 1</label>
+    <label><input type="radio" name="rating" value="2"> 2</label>
+    <label><input type="radio" name="rating" value="3"> 3</label>
+    <label><input type="radio" name="rating" value="4"> 4</label>
+    <label><input type="radio" name="rating" value="5"> 5</label>
+    <button type="submit">Submit</button>
+</form>
+
 
 <div id="descriptionContainer" style="display:none;"></div>
 

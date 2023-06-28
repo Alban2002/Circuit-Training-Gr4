@@ -78,7 +78,20 @@ class SeanceManager
         return $seanceDetails;
     }
 
-    // Vous pouvez ajouter d'autres méthodes pour d'autres fonctionnalités ici
+    public function saveFeedback($seanceId, $rating)
+    {
+        $query = "
+        UPDATE attribution_seance
+        SET RessentitSeance = :rating
+        WHERE ID_seance = :seanceId
+    ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+        $stmt->bindParam(':seanceId', $seanceId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
 }
 
 // Connexion à la base de données
@@ -120,6 +133,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $seanceManager->updateSeanceStatus($_POST['seanceId'], $_POST['status']);
             }
             break;
+        case 'saveFeedback':
+            if (isset($_POST['seanceId']) && isset($_POST['rating'])) {
+                $seanceManager->saveFeedback($_POST['seanceId'], $_POST['rating']);
+            }
+            break;
+
 
 
     }
