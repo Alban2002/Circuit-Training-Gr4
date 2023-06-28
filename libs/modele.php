@@ -74,4 +74,38 @@ function getRole($id){
 	return SQLGetChamp($SQL);
 }
 
+function listerUtilisateurs($pseudo="")
+{
+	$SQL = "SELECT * FROM users where role='coach'"; 
+	if ($pseudo!="") $SQL .= " WHERE pseudo like '$pseudo%'";
+	$SQL .= " ORDER BY pseudo ASC";
+ 
+	return parcoursRs(SQLSelect($SQL)); 
+}
+
+function listergroup()
+{
+	$SQL= "SELECT * FROM groupes join users on ID_COACH=ID_USER where ID_COACH=ID_USER";
+	return parcoursRs(SQLSelect($SQL));
+}
+function CreerGroupe($description)
+{
+	$SQL= "insert into groupes (ID_COACH, description) VALUES(ID_USER,$description)";
+	return SQLInsert($SQL);
+}
+function VoirSesEleves()
+{
+	$SQL = "select * from attribution groupe join groupes on ID_groupe where ID_COACH=ID_USER";
+	return parcoursRS($SQL);
+}
+function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
+{
+	$SQL = "insert into attribution groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
+	return SQLInsert($SQL);
+}
+function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
+{
+	$SQL= "Delete from attribution groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
+	return SQLDelete($SQL);
+}
 ?>
