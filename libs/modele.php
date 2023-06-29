@@ -78,7 +78,6 @@ function getRole($id){
 function listerUtilisateurs($pseudo="")
 {
 	$SQL = "SELECT * FROM users where role='athlete'"; 
-	if ($pseudo!="") $SQL .= " WHERE pseudo like '$pseudo%'";
 	$SQL .= " ORDER BY pseudo ASC";
  
 	return parcoursRs(SQLSelect($SQL)); 
@@ -116,7 +115,12 @@ function afficherEleveGroupe($ID_Groupe)
 	return mkTable(ParcoursRS(SQLSelect($SQL)));
 }
 function afficherElevePasGroupe($ID_Groupe)
-{	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where not ID_groupe=$ID_Groupe";
+{	$SQL= " Select pseudo,ID_user from users where role='athlete' Except Select pseudo,ID_user from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe ";
 	return ParcoursRS(SQLSelect($SQL));
+}
+function SupprimerGroupe($ID_Groupe)
+{
+	$SQL= "Delete from groupes where ID_groupe=$ID_Groupe";
+	return SQLDelete($SQL);
 }
 ?>
