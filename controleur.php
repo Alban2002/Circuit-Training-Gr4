@@ -71,6 +71,14 @@ session_start();
 
 			break;
 
+			case 'Associer à ce groupe' :
+				$idUser = valider("idUser2");
+				$idGroup = valider("idGroup2");
+				AjouterEleveGroupe($idUser,$idGroup);	
+				$qs="?view=GererGroupe&reponse=$idGroup";	
+
+			break;
+
 			case 'Créer Groupe' :
 				$description = valider("description");
 				CreerGroupe($description);
@@ -78,9 +86,21 @@ session_start();
 
 			break;
 
-			case 'Modifier Groupe' :
+			case 'Modifier ce groupe' :
 				$reponse=valider("idGroup2");
 				$qs="?view=GererGroupe&reponse=$reponse";
+
+			break;
+
+			case 'Supprimer ce groupe' :
+				$idGroup=valider("idGroup3");
+				SupprimerGroupe($idGroup);
+				$qs="?view=GererGroupes";
+
+			break;
+
+			case 'Retourner au menu précedent' :
+				$qs="?view=GererGroupes";
 
 			break;
 			
