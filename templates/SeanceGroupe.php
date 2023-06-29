@@ -2,6 +2,55 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        select, input[type="date"] {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submit {
+            background-color: #4CAF50;
+        }
+
+        #btnSupprimer {
+            background-color: #f44336;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    </style>
     <script>
         $(document).ready(function() {
 
@@ -96,7 +145,7 @@
 </head>
 <body>
 
-<h2>Attribution de séances à un groupe</h2>
+<h2>Attribuer une séances à un groupe</h2>
 
 
 
@@ -116,7 +165,7 @@
 
 
 
-<h3>Supprimer une séance</h3>
+<h3>Supprimer une attribution de séance</h3>
 <label for="seanceSupprimer">Sélectionner une séance:</label><br>
 <select id="seanceSupprimer" name="seanceSupprimer">
     <option value="" disabled selected>Choisissez une séance</option>
