@@ -75,8 +75,6 @@ include_once("libs/maLibUtils.php"); ?>
 <select name="idUser">
 <?php
 $users = listerUtilisateurs();
-
-// préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($users as $dataUser)
 {
 	echo "<option value=\"$dataUser[ID_user]\">";
@@ -91,8 +89,6 @@ foreach ($users as $dataUser)
 <select name="idGroup">
 <?php
 $group = listerGroup();
-
-// préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($group as $dataGroup)
 {
     echo "<option value=\"$dataGroup[ID_groupe]\">";

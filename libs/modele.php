@@ -1,19 +1,9 @@
 <?php
 
-/*
-Dans ce fichier, on définit diverses fonctions permettant de récupérer des données utiles pour notre TP d'identification. Deux parties sont à compléter, en suivant les indications données dans le support de TP
-*/
 
-
-/********* EXERCICE 2 : prise en main de la base de données *********/
-
-
-// inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("maLibSQL.pdo.php");
 include_once("maLibForms.php");
 include_once("config.php");
-// fournit parcoursRS, SQLSelect, etc. 
-
 
 
 
@@ -58,9 +48,6 @@ function verifUserBdd($login,$passe)
 	// renvoie faux si user inconnu
 	// renvoie l'id de l'utilisateur si succès
 
-	// =================================================
-	// EXERCICE 4
-	// ==================================================
 	$SQL = "SELECT ID_user FROM users WHERE pseudo='$login' AND password='$passe'";
 	//die($SQL);
 	return SQLGetChamp($SQL);
