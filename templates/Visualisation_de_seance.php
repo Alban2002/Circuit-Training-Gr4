@@ -86,7 +86,7 @@
     #seanceDetails {
         position: fixed;
         z-index: 999;
-        top: 20px;  /* Adjust this to set the distance from the top */
+        top: 50px;  /* Adjust this to set the distance from the top */
         right: 20px;  /* Adjust this to set the distance from the right */
         width: 300px;  /* Width of the box */
         height: auto;  /* Height will adjust based on content */
@@ -99,7 +99,7 @@
     #descriptionContainer {
         position: fixed;
         z-index: 999;
-        top: 20px;  /* Adjust this to set the distance from the top */
+        top: 120px;  /* Adjust this to set the distance from the top */
         right: 20px;  /* Adjust this to set the distance from the right */
         width: 300px;  /* Width of the box */
         height: auto;  /* Height will adjust based on content */
@@ -136,7 +136,7 @@
 
     .exercise-image {
 
-        height: 200px;
+        height: 500px;
     }
 
     .exercise-duration, .exercise-quantity {
