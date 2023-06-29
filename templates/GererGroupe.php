@@ -40,6 +40,9 @@ include_once("libs/maLibUtils.php"); ?>
             display : flex;
             justify-content: center;
         }
+        .fin{
+            margin-bottom:40px;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +54,6 @@ include_once("libs/maLibUtils.php"); ?>
     ?>
     <form action="controleur.php" method="GET">
         <select name="idUser2">
-            <div class="tableau">
             <?php
             $users = afficherElevePasGroupe($ID_Group);
 
@@ -62,7 +64,6 @@ include_once("libs/maLibUtils.php"); ?>
                 echo "</option>\n";
             }
             ?>
-            </div>
         </select>
         <input type="hidden" name="idGroup2" value="<?php echo $ID_Group; ?>">
         <input type="submit" name="action" value="Associer à ce groupe" />
