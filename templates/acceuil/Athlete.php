@@ -1,40 +1,38 @@
-<body>
-<div class="contenairselect">
-<div id="Lienentrainements" class="selection1">
-    <h2 class="titreselec">Accéeder à mes entrainements</h2>
-</div>
-<div id="Lienstats" class="selection2" ondblclick="changePage('index.php?view=statistiques')">
-    <h2 class="titreselec">Accéder à mes statistiques</h2>
-</div>
-</div>
-</body>
-
-
 <html>
 <head>
     <title>Bienvenue athlète!</title>
+
     <style>
-        .button {
-            display: inline block;
-            width: 200px;
-            padding: 10px;
-            margin-bottom: 10px;
+        h1 {
             text-align: center;
-            text-decoration: none;
-            font-weight: bold;
         }
 
-        .button:hover {
-            background-color: #2680D1;
+        .boutons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .selection1,
+        .selection2 {
+            padding: 20px;
+            border-radius: 5px;
         }
     </style>
+
 </head>
 <body>
     <h1>Bienvenue <?php echo $_SESSION['pseudo']; ?>!</h1>
 
-    <a class="button" href="page_seances_preues.php">Mes séances</a>
-    <a class="button" href="statistiques.php">Mes statistiques</a>
-
+    <div class="boutons-container">
+        <div id="Lienentrainements" class="selection1">
+            <h2 class="titreselec">Accéder à mes entrainements</h2>
+        </div>
+        <div id="Lienstats" class="selection2" ondblclick="changePage('index.php?view=statistiques')">
+            <h2 class="titreselec">Accéder à mes statistiques</h2>
+        </div>
+    </div>
 </body>
 
 </html>
