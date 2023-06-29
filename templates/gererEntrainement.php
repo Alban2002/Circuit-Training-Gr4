@@ -35,11 +35,7 @@
 
 <script>
     var exercises = [];
-<<<<<<< Updated upstream
-    var userId = 5;
-=======
-    var userId = 1;
->>>>>>> Stashed changes
+
 
     function getSeanceValues() {
         var values = [];
@@ -159,7 +155,7 @@
         $.ajax({
             type: "POST",
             url: "templates/fonctions_gererEntrainement.php",
-            data: { action: "fetchListeExercises",  userId: userId },
+            data: { action: "fetchListeExercises",  userId: idUser },
             dataType: "json",
             success: function(response) {
                 console.log("success");
@@ -223,7 +219,7 @@
                 url: 'templates/fonctions_gererEntrainement.php',
                 data: {
                     action: 'enregistrerSeance',
-                    userId: userId,
+                    userId: idUser,
                     ListeExercices: listeExercices,
                     seance: seanceValues },
                 dataType: 'json',
@@ -240,7 +236,7 @@
                     $('#seance_form').show();
 
                     // Redirection vers l'URL d'accueil
-                    window.location.href = 'http://localhost/Circuit-Training-Gr4/index.php?view=acceuil';
+                    window.location.href = 'index.php?view=voirseance';
                 },
                 error: function(xhr, status, error) {
                     console.error('Erreur lors de l\'enregistrement de la séance:', error);
