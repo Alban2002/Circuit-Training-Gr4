@@ -12,7 +12,7 @@ if (!$connecte){
 else {
     if (isset($_SESSION["role"]))
     $role=$_SESSION["role"];
-    if($role='coach'){
+    if($role=='coach'){
         include('acceuil/Coach.php');
     } else {
         include('acceuil/Athlete.php');

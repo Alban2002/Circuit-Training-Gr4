@@ -1,26 +1,27 @@
 <?php
 
-session_start();
+$BDD_host="localhost";
+$BDD_user="root";
+$BDD_password="";
+$BDD_base="grp4_circuit_training"; // nom de la base de données
 
-if (isset($_SESSION['user_id'])) {
-    $userID = $_SESSION['user_id'];
-} else {
-    // L'utilisateur n'est pas connecté --> rediriger vers la page de connexion/inscription
-}
 
-// Requête SQL pour récupérer les statistiques
-$sql = "SELECT COUNT(*) AS total_seances, SUM(statut_seance = 1) AS seances_effectuees FROM attribution_seance WHERE id_user = $userID AND statut_seance != 0";
-$result = $conn->query($sql);
+$db = new PDO("mysql:host=$BDD_host;dbname=$BDD_base", $BDD_user, $BDD_password);
+
+$userID = $_SESSION['idUser'];
+// Requête SQL
+$sql = "SELECT COUNT(*) AS total_seances, SUM(statut_seance = 'fait') AS seances_effectuees FROM attribution_seance WHERE ID_user = $userID AND statut_seance != 'a faire' ";
+$result = $db->query($sql);
 
 if ($result) {
-    $row = $result->fetch_assoc();
+    $row = $result->fetch(PDO::FETCH_ASSOC);
     $totalSeances = $row['total_seances'];
     $seancesEffectuees = $row['seances_effectuees'];
 
-    // Calculer le pourcentage des séances effectuées
+    // Calcul des pourcentages des séances effectuées
     $pourcentage = ($seancesEffectuees / $totalSeances) * 100;
 } else {
-    echo "Erreur lors de l'exécution de la requête : " . $conn->error;
+    echo "Erreur lors de l'exécution de la requête : " . $db->error;
 }
 ?>
 
@@ -33,15 +34,15 @@ if ($result) {
 
 <body>
     <h1>Statistiques des séances</h1>
-    <canvas id="graphique-seances"></canvas>
+    <canvas id="graphique-seances" style="width: 400px; height: 400px;"></canvas>
 
     <script>
-        // Récupérer les données depuis votre source de données (par exemple, votre base de données)
+
         var totalSeances = <?php echo $totalSeances; ?>;
         var seancesEffectuees = <?php echo $seancesEffectuees; ?>;
         var pourcentage = <?php echo $pourcentage; ?>;
 
-        // Configurer les données du graphique
+        // Configurer les données du graph
         var data = {
             labels: ['Séances effectuées', 'Séances non effectuées'],
             datasets: [{
@@ -50,16 +51,15 @@ if ($result) {
             }]
         };
 
-        // Configurer les options du graphique
         var options = {
-            responsive: true
+            responsive: false
         };
 
+        // Graph
         document.write("Nombre total de séances : " + totalSeances + "<br>");
         document.write("Nombre de séances effectuées : " + seancesEffectuees + "<br>");
         document.write("Pourcentage de séances effectuées : " + pourcentage + "%<br>");
 
-        // Créer le graphique
         var ctx = document.getElementById('graphique-seances').getContext('2d');
         var myPieChart = new Chart(ctx, {
             type: 'pie',
@@ -67,17 +67,6 @@ if ($result) {
             options: options
         });
     </script>
-
-    <?php
-    if ($result) {
-         // Afficher les statistiques
-        echo "Nombre total de séances : " . $totalSeances . "<br>";
-        echo "Nombre de séances effectuées : " . $seancesEffectuees . "<br>";
-        echo "Pourcentage de séances effectuées : " . $pourcentage . "%";
-    } else {
-        echo "Erreur lors de la récupération des statistiques.";
-    }
-    ?>
 
 </body>
 </html>

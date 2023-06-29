@@ -50,6 +50,10 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates\gererEntrainement.php");
 		break;
 
+		case "statistiques" :
+			include("templates\statistiques.php");
+		break;
+
 		case "CreerExercice" :
 			include("templates/CreerExercice.php");
 		break;
