@@ -112,10 +112,10 @@
 
 
     #calendar {
-        position: absolute; /* Utilise le positionnement absolu par rapport à l'élément parent */
+         /* Utilise le positionnement absolu par rapport à l'élément parent */
         top: 50px; /* Déplace l'élément en haut de la page */
         left: 0; /* Déplace l'élément à gauche de la page */
-        width: 70%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
+        width: 60%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
         height: auto; /* La hauteur de l'élément s'adapte au contenu */
         background-color: white; /* Couleur de fond de l'élément */
         padding: 10px; /* Ajoute un espace entre le contenu et les bords de l'élément */
@@ -135,8 +135,8 @@
     }
 
     .exercise-image {
-        width: 100%;
-        height: auto;
+
+        height: 200px;
     }
 
     .exercise-duration, .exercise-quantity {
