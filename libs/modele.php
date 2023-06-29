@@ -76,7 +76,7 @@ function getRole($id){
 
 function listerUtilisateurs($pseudo="")
 {
-	$SQL = "SELECT * FROM users where role='coach'"; 
+	$SQL = "SELECT * FROM users where role='athlete'"; 
 	if ($pseudo!="") $SQL .= " WHERE pseudo like '$pseudo%'";
 	$SQL .= " ORDER BY pseudo ASC";
  
@@ -90,22 +90,23 @@ function listergroup()
 }
 function CreerGroupe($description)
 {
-	$SQL= "insert into groupes (ID_COACH, description) VALUES(ID_USER,$description)";
+	$SQL= "insert into groupes (ID_COACH, description) VALUES($_SESSION[idUser],$description)";
 	return SQLInsert($SQL);
 }
 function VoirSesEleves()
 {
-	$SQL = "select * from attribution groupe join groupes on ID_groupe where ID_COACH=ID_USER";
+	$SQL = "select * from attribution_groupe join groupes on ID_groupe where ID_COACH=ID_USER";
 	return parcoursRS($SQL);
 }
 function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
-{
-	$SQL = "insert into attribution groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
-	return SQLInsert($SQL);
+{	$SQLverif = "select * from attribution_groupe where ID_groupe==$ID_Groupe and ID_athlete==$ID_Eleves";
+		if (SQLSelect($SQLverif)=false){
+	$SQL = "insert into attribution_groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
+	return SQLInsert($SQL);}
 }
 function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
 {
-	$SQL= "Delete from attribution groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
+	$SQL= "Delete from attribution_groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
 	return SQLDelete($SQL);
 }
 ?>

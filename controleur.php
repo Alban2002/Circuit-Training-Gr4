@@ -59,7 +59,22 @@ session_start();
 
 
 			break;
-			
+
+			case 'Associer' :
+				$idUser = valider("idUser");
+				$idGroup = valider("idGroup");
+				AjouterEleveGroupe($idUser,$idGroup);	
+				$qs="?view=GererGroupes.php";	
+
+			break;
+
+			case 'Créer Groupe' :
+				$description = valider("description");
+				CreerGroupe($description);
+				$qs="?view=GererGroupes.php";	
+
+
+			break;
 			
 		
 		

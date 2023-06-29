@@ -46,24 +46,17 @@ include_once("../libs/maLibUtils.php"); ?>
     <h1>Assigner des utilisateurs à des groupes</h1>
     <h2>Utilisateur</h2>
     <div class="container">
+    <form action="../controleur.php" method="GET">
 <select name="idUser">
 <?php
 $users = listerUtilisateurs();
 
 // préférer un appel à mkSelect("idUser",$users, ...)
-$dernier = valider("dernier");
 foreach ($users as $dataUser)
 {
-	if (($dernier != "") && ($dataUser['ID_user'] == $dernier))
-	{
-		echo "<option value=\"$dataUser[ID_user]\" selected>\n";
-	}
-	else {
-		echo "<option value=\"$dataUser[ID_user]\">\n";
-	}
-	
-	echo  $dataUser["pseudo"];
-	echo "\n</option>\n"; 
+	echo "<option value=\"$dataUser[ID_user]\">";
+    echo $dataUser["pseudo"]; 
+    echo "</option>\n";
 }
 ?>
 </select>
@@ -77,23 +70,24 @@ $group = listerGroup();
 // préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($group as $dataGroup)
 {
-	echo  $dataGroup["ID"];
-	echo "\n</option>\n"; 
+    echo "<option value=\"$dataGroup[ID_groupe]\">";
+	echo  $dataGroup["ID_groupe"];
+	echo "</option>\n"; 
 }
 ?>
 </select>
 </div>
 <div>
-<form action="controleur.php" method="GET">
-<input type="button" name="action" value="Associer" />
+
+<input type="submit" name="action" value="Associer" />
 </form>
 <h1>Créer un groupe</h1>
 <div>
-<form action="controleur.php" method="GET">
-description : <input type="text" name="action" value="Description" />
-</form>
-<button type="button" onclick="CreerGroupe(description)">Créer un groupe</button>
+<form action="../controleur.php" method="GET">
+Description : <input type="text" name="description" value="" />
 </div>
+<input type="submit" name="action" value="Créer Groupe"/>
+</form>
 <h1>Supprimer un utilisateur d'un groupe</h1>
 </body>
 </html>
