@@ -35,6 +35,7 @@ include_once("libs/maLibUtils.php"); ?>
         input[type="submit"] {
             padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
         }
         
         .success {
@@ -59,6 +60,10 @@ include_once("libs/maLibUtils.php"); ?>
         display : flex;
         justify-content: center;
         margin-top:50px;
+        cursor: pointer;
+        }
+        .fin{
+            margin-bottom:50px;
         }
     </style>
 </head>
@@ -70,8 +75,6 @@ include_once("libs/maLibUtils.php"); ?>
 <select name="idUser">
 <?php
 $users = listerUtilisateurs();
-
-// préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($users as $dataUser)
 {
 	echo "<option value=\"$dataUser[ID_user]\">";
@@ -86,8 +89,6 @@ foreach ($users as $dataUser)
 <select name="idGroup">
 <?php
 $group = listerGroup();
-
-// préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($group as $dataGroup)
 {
     echo "<option value=\"$dataGroup[ID_groupe]\">";
@@ -137,9 +138,10 @@ foreach ($group as $dataGroup)
 </form>
 
 <div class="button_retour">
-        <input type="button" value="Retour" onclick="changePage('index.php?view=GererGroupes')">
+        <input type="button" value="Retour" onclick="changePage('index.php')">
 </div>
-
+<div class="fin">
+</div>
 
 </body>
 </html>

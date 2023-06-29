@@ -99,6 +99,14 @@ session_start();
 
 			break;
 
+			case 'Retirer de ce groupe' :
+				$idUser=valider("idUser3");
+				$idGroup=valider("idGroup4");
+				SupprimerEleveGroupe($idUser,$idGroup);
+				$qs="?view=GererGroupe&reponse=$idGroup";
+
+			break;
+
 			case 'Retourner au menu précedent' :
 				$qs="?view=GererGroupes";
 

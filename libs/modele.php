@@ -1,19 +1,9 @@
 <?php
 
-/*
-Dans ce fichier, on définit diverses fonctions permettant de récupérer des données utiles pour notre TP d'identification. Deux parties sont à compléter, en suivant les indications données dans le support de TP
-*/
 
-
-/********* EXERCICE 2 : prise en main de la base de données *********/
-
-
-// inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("maLibSQL.pdo.php");
 include_once("maLibForms.php");
 include_once("config.php");
-// fournit parcoursRS, SQLSelect, etc. 
-
 
 
 
@@ -58,9 +48,6 @@ function verifUserBdd($login,$passe)
 	// renvoie faux si user inconnu
 	// renvoie l'id de l'utilisateur si succès
 
-	// =================================================
-	// EXERCICE 4
-	// ==================================================
 	$SQL = "SELECT ID_user FROM users WHERE pseudo='$login' AND password='$passe'";
 	//die($SQL);
 	return SQLGetChamp($SQL);
@@ -104,15 +91,19 @@ function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
 	$SQL = "insert into attribution_groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
 	return SQLInsert($SQL);}
 }
-function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
-{	$SQLverif = "select * from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_Eleves";
+function SupprimerEleveGroupe($ID_athlete,$ID_Groupe)
+{	$SQLverif = "select * from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_athlete";
 	if (SQLSelect($SQLverif)!=false){
-	$SQL= "Delete from attribution_groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
+	$SQL= "Delete from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_athlete";
 	return SQLDelete($SQL);}
 }
 function afficherEleveGroupe($ID_Groupe)
 {	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe";
-	return mkTable(ParcoursRS(SQLSelect($SQL)));
+	return ParcoursRS(SQLSelect($SQL));
+}
+function EleveDansGroupe($ID_Groupe)
+{	$SQL= " Select pseudo,ID_athlete from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe";
+	return ParcoursRS(SQLSelect($SQL));
 }
 function afficherElevePasGroupe($ID_Groupe)
 {	$SQL= " Select pseudo,ID_user from users where role='athlete' Except Select pseudo,ID_user from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe ";
