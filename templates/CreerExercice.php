@@ -55,6 +55,9 @@ include_once("libs/maLibSQL.pdo.php");
 $id_coach=$_SESSION["idUser"];
 $SQL="SELECT * FROM exercices WHERE ID_coach='$id_coach'";
 $data=SQLSelect($SQL);
+if(!($data)){
+  echo "<h3>Vous n'avez pas créer d'exercice</h2>";
+} else{
 foreach ($data as $exercice ) {
 $configurateur=$exercice["configurateur"];
 $nom=$exercice["nom"];
@@ -66,6 +69,7 @@ echo "Description :<p>$description</p>";
 echo "Type :<p>$configurateur</p>";
 echo "<img src='{$url}'  />";
 echo "</fieldset>";
+}
 
 }
 

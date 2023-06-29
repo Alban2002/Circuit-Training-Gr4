@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 29 juin 2023 à 10:01
+-- Généré le : jeu. 29 juin 2023 à 14:48
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `exercices` (
   `ID_coach` int NOT NULL,
   `configurateur` enum('duree','quantite') NOT NULL,
   PRIMARY KEY (`ID_exo`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `exercices`
@@ -119,7 +119,10 @@ CREATE TABLE IF NOT EXISTS `exercices` (
 INSERT INTO `exercices` (`nom`, `ID_exo`, `description`, `media`, `ID_coach`, `configurateur`) VALUES
 ('abdo', 1, 'description abdo', 'media abdo', 12, 'duree'),
 ('pompe', 4, 'descriptions pompe', 'media pompe', 12, 'quantite'),
-('pause', 5, 'pause de x sec', 'Attend juste', 12, 'duree');
+('pause', 5, 'pause de x sec', 'Attend juste', 12, 'duree'),
+('Pompe', 6, 'pompe normale au poids du corps ', 'uploads/pompe-musculation.gif', 5, 'quantite'),
+('Traction', 7, 'Traction prise large', 'uploads/traction-musculation-dos.gif', 5, 'quantite'),
+('Crunch', 8, 'abbdos', 'uploads/knee-touch-crunch.gif', 5, 'quantite');
 
 -- --------------------------------------------------------
 
@@ -173,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ID_user` int NOT NULL AUTO_INCREMENT,
   `role` enum('athlète','coach','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`ID_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -183,7 +186,39 @@ INSERT INTO `users` (`pseudo`, `password`, `ID_user`, `role`) VALUES
 ('athtest1', '0000', 1, 'athlète'),
 ('coache1', '0000', 2, 'coach'),
 ('mat', 'mad', 3, 'athlète'),
-('matC', 'mad', 4, 'coach');
+('matC', 'mad', 4, 'coach'),
+('C1', '1', 5, 'coach'),
+('A1', '1', 6, 'athlète');
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `vue_seance_detaillee`
+-- (Voir ci-dessous la vue réelle)
+--
+DROP VIEW IF EXISTS `vue_seance_detaillee`;
+CREATE TABLE IF NOT EXISTS `vue_seance_detaillee` (
+`ID_exo` int
+,`nom` text
+,`description` text
+,`media` text
+,`ID_coach` int
+,`configurateur` enum('duree','quantite')
+,`ID_seance` int
+,`rang_exo` int
+,`duree` int
+,`quantite` int
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `vue_seance_detaillee`
+--
+DROP TABLE IF EXISTS `vue_seance_detaillee`;
+
+DROP VIEW IF EXISTS `vue_seance_detaillee`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_seance_detaillee`  AS SELECT `ex`.`ID_exo` AS `ID_exo`, `ex`.`nom` AS `nom`, `ex`.`description` AS `description`, `ex`.`media` AS `media`, `ex`.`ID_coach` AS `ID_coach`, `ex`.`configurateur` AS `configurateur`, `cs`.`ID_seance` AS `ID_seance`, `cs`.`rang_exo` AS `rang_exo`, `cs`.`duree` AS `duree`, `cs`.`quantite` AS `quantite` FROM (`exercices` `ex` join `contenu_seance` `cs` on((`ex`.`ID_exo` = `cs`.`ID_exo`)))  ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
