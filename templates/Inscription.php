@@ -1,3 +1,17 @@
+<style>
+#corps input{
+	min-width: 100px;
+	min-height: 40px;
+	padding: auto;
+}
+
+#corps {
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 <div id="corps">
 		<h1>Inscription</h1>
 	<div id="formCreateUser">

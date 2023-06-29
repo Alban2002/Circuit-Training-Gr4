@@ -5,7 +5,20 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 	die("");
 }
 ?>
+<style>
+#corps input{
+	min-width: 100px;
+	min-height: 40px;
+	padding: auto;
+}
 
+#corps {
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 <?php
 if (isset($_SESSION["connecte"]))
 $connecte=$_SESSION["connecte"];
