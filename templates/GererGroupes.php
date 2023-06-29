@@ -12,11 +12,19 @@ include_once("libs/maLibUtils.php"); ?>
         }
         
         h1 {
-            margin-bottom: 20px;
+            margin-top: 60px;
+            display : flex;
+            justify-content: center;
+        }
+        h2 {
+            display : flex;
+            justify-content: center;
         }
         
         form {
             margin-bottom: 20px;
+            display : flex;
+            justify-content: center;
         }
         
         label {
@@ -39,6 +47,18 @@ include_once("libs/maLibUtils.php"); ?>
         .container {
         display: grid;
         gap: 20px;
+        display : flex;
+        justify-content: center;
+        }
+        .button_activeable{
+        display : flex;
+        justify-content: center;
+        margin-top:20px;
+        }
+        .button_retour{
+        display : flex;
+        justify-content: center;
+        margin-top:50px;
         }
     </style>
 </head>
@@ -61,8 +81,8 @@ foreach ($users as $dataUser)
 ?>
 </select>
 </div>
-<div class="container">
 <h2>Groupe</h2>
+<div class="container">
 <select name="idGroup">
 <?php
 $group = listerGroup();
@@ -78,39 +98,47 @@ foreach ($group as $dataGroup)
 </select>
 </div>
 <div>
-
+<div class="button_activeable">
 <input type="submit" name="action" value="Associer" />
+</div>
 </form>
 <h1>Créer un groupe</h1>
 <div>
 <form action="controleur.php" method="GET">
 Description : <input type="text" name="description" value="" />
 </div>
+<div class="button_activeable">
 <input type="submit" name="action" value="Créer Groupe"/>
+</div>
 </form>
 
 <h1>Modifier un groupe</h1>
-<form action="controleur.php" method="GET">
-<div class="container">
 <h2>Groupe</h2>
+<div class="container">
+
+<form action="controleur.php" method="GET">
 <select name="idGroup2">
 <?php
 $group = listerGroup();
 
-// préférer un appel à mkSelect("idUser",$users, ...)
 foreach ($group as $dataGroup)
 {
     echo "<option value=\"$dataGroup[ID_groupe]\">";
-	echo  $dataGroup["ID_groupe"];
+	echo  $dataGroup["description"];
 	echo "</option>\n"; 
 }
 ?>
 </select>
 </div>
 <div>
-
-<input type="submit" name="action" value="Modifier Groupe" />
+<div class="button_activeable">
+<input type="submit" name="action" value="Modifier ce groupe" />
+</div>
 </form>
+
+<div class="button_retour">
+        <input type="button" value="Retour" onclick="changePage('index.php?view=GererGroupes')">
+</div>
 
 
 </body>
