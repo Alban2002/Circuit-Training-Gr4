@@ -35,8 +35,7 @@
 
 <script>
     var exercises = [];
-    var userId = 1;
-    var seanceId = 123183;
+    var userId = ;
 
     function getSeanceValues() {
         var values = [];
@@ -54,11 +53,10 @@
         });
 
 
-
-
         $('#seance_form').hide();
         $('#createurSeance').show();
-        $('h2').eq(0).html("Séance : " + values.nom);
+        console.log(values[0]);
+        $('h2').eq(0).html("Séance : " + values[0].nom);
         return values;
     }
 
@@ -89,11 +87,7 @@
             console.log("click +");
 
             var jClone = jP.clone();
-            // lire le contenu du champ input
-            // situé avant le btn cliqué
-            // refJQSurElt1.prev()
-            // renvoie une ref jQ sur l'élt situé juste avant Elt1
-            // dans le DOM
+
             var lbl = $(this).prev().val();
 
             if (lbl != "") {
@@ -125,6 +119,10 @@
 
                 // Add label and input field to jClone
                 jClone.append(label, inputField);
+
+                jClone.append($('<input>').attr('type', 'button').attr('value','supr').click(function (){
+                    $(this).parent().remove();
+                }));
 
                 if ($("input[value='+']").index($(this)) == 0) {
                     // en haut

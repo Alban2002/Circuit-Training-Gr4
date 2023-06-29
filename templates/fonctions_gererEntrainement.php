@@ -71,11 +71,12 @@ class SeanceManager
 
         // Insert the session into the `seances` table
         $insertSeanceQuery = "
-        INSERT INTO seance (nom, type, description, duree, difficulte)
-        VALUES (:nom, :type_seance, :description, :duree, :difficulte)
+        INSERT INTO seance (ID_coach,nom, type, description, duree, difficulte)
+        VALUES (:ID_coach, :nom, :type_seance, :description, :duree, :difficulte)
     ";
 
         $stmt = $this->db->prepare($insertSeanceQuery);
+        $stmt->bindParam(':ID_coach', $userId, PDO::PARAM_INT);
         $stmt->bindParam(':nom', $seance_nom, PDO::PARAM_STR);
         $stmt->bindParam(':type_seance', $seance_type, PDO::PARAM_STR);
         $stmt->bindParam(':description', $seance_description, PDO::PARAM_STR);
