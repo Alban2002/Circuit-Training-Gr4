@@ -23,7 +23,7 @@
         #contenu { list-style-type: none; margin: 0; padding: 0; width: 60%; }
         #contenu li { margin: 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
         #contenu li span { position: absolute; margin-left: -1.3em; }
-        #contenu li input { width: 20px }
+        #contenu li input { width: 50px }
         #contenu li label { margin-left: 20px; font-size: small }
 
         #seance_form {
@@ -42,18 +42,23 @@
     var seanceId = 123183;
 
     function getSeanceValues() {
-        var values = {};
+        var values = [];
 
-        // Récupérer les valeurs des champs de saisie
-        values.nom = $("#nom_seance").val();
-        values.description = $("#description_seance").val();
-        values.duree = $("#duree_seance").val();
 
-        // Récupérer la valeur du bouton radio sélectionné
-        values.difficulte = $("input[name='difficulte']:checked").val();
+        values.push({
+            // Récupérer les valeurs des champs de saisie
+            nom: $("#nom_seance").val(),
+            description: $("#description_seance").val(),
+            duree: $("#duree_seance").val(),
+            // Récupérer la valeur du bouton radio sélectionné
+            difficulte: $("input[name='difficulte']:checked").val(),
+            // Récupérer la valeur de la séance sélectionnée dans la liste déroulante
+            type_seance: $("#type_seance").val()
+        });
 
-        // Récupérer la valeur de la séance sélectionnée dans la liste déroulante
-        values.type_seance = $("#type_seance").val();
+
+
+
         $('#seance_form').hide();
         $('#createurSeance').show();
         $('h2').eq(0).html("Séance : " + values.nom);
@@ -73,13 +78,7 @@
     var jP = $("<li>")
         .html("Nouveau P")
         .addClass("ui-state-default");
-    /*
-        comportement au click
-        nécessite de cloner avec .clone(true)
-                .click(function(){
-            $(this).html("touché !");
-        });
-    */
+
 
     // preparation btn +
     var btnPlus = $("<input type='button' />")
@@ -165,7 +164,6 @@
             success: function(response) {
                 console.log("success");
                 exercises = response;
-                var exerciseList = $('#contenu');
                 var availableTags = [];
 
                 $.each(exercises, function(index, item) {
@@ -199,26 +197,46 @@
             //$("#seance_form")[0].reset();
         });
 
-        var seance = []; // Variable pour stocker les exercices de la séance
+        var listeExercices = []; // Variable pour stocker les exercices de la séance
 
         // Gestionnaire de clic sur le bouton "Enregistrer la séance"
         $('#enregistrer_seance').click(function() {
             // Réinitialiser la variable de séance
-            seance = [];
+            listeExercices = [];
 
             // Parcourir la liste des exercices dans #contenu
-            $('#contenu li').each(function(index) {
+            $('#contenu li').each(function() {
                 var exerciseData = $(this).data('ID_exo'); // Récupérer les données de l'exercice
                 var exerciseIndex = $(this).index()+1; // Récupérer l'index de l'exercice dans la liste
+                var exerciseConfig = $(this).data('configurateur'); // Récupérer le configurateur de l'exercice dans la liste
 
                 // Ajouter l'exercice et son index à la variable de séance
-                seance.push({
+                listeExercices.push({
                     exercice: exerciseData,
-                    index: exerciseIndex
+                    index: exerciseIndex,
+                    configurateur: exerciseConfig,
+                    valeur : $(this).find('input').val()
                 });
             });
 
-            console.log(seance); // Afficher la variable de séance dans la console (à adapter selon vos besoins)
+            console.log(listeExercices); // Afficher la variable de listeExercices dans la console
+            $.ajax({
+                type: 'POST',
+                url: 'templates/fonctions_gererEntrainement.php',
+                data: {
+                    action: 'enregistrerSeance',
+                    userId: userId,
+                    ListeExercices: listeExercices,
+                    seance: seanceValues },
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Séance enregistrée avec succès');
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erreur lors de l\'enregistrement de la séance:', error);
+                }
+            });
         });
 
         // Gestionnaire de clic sur le bouton "Quitter"
