@@ -38,7 +38,7 @@
     padding: 10px 20px;
     margin: 10px 0;
     color: #fff;
-    background-color: #dc3545;
+    background-color: #f44336;
     border: none;
     border-radius: 5px;
     text-decoration: none;
@@ -53,7 +53,7 @@
         padding: 10px 20px;
         margin: 10px 0;
         color: #fff;
-        background-color: Green;
+        background-color: #4CAF50;
         border: none;
         border-radius: 5px;
         text-decoration: none;
@@ -204,7 +204,7 @@
         padding: 10px 20px;
         margin: 10px 0;
         color: #fff;
-        background-color: Green;
+        background-color:  #4CAF50;
         border: none;
         border-radius: 5px;
         text-decoration: none;
