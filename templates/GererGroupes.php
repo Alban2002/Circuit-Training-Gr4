@@ -46,7 +46,7 @@ include_once("libs/maLibUtils.php"); ?>
     <h1>Assigner des utilisateurs à des groupes</h1>
     <h2>Utilisateur</h2>
     <div class="container">
-    <form action="controleur.php" method="GET">
+<form action="controleur.php" method="GET">
 <select name="idUser">
 <?php
 $users = listerUtilisateurs();
@@ -71,7 +71,7 @@ $group = listerGroup();
 foreach ($group as $dataGroup)
 {
     echo "<option value=\"$dataGroup[ID_groupe]\">";
-	echo  $dataGroup["ID_groupe"];
+	echo  $dataGroup["description"];
 	echo "</option>\n"; 
 }
 ?>
@@ -88,6 +88,30 @@ Description : <input type="text" name="description" value="" />
 </div>
 <input type="submit" name="action" value="Créer Groupe"/>
 </form>
-<h1>Supprimer un utilisateur d'un groupe</h1>
+
+<h1>Modifier un groupe</h1>
+<form action="controleur.php" method="GET">
+<div class="container">
+<h2>Groupe</h2>
+<select name="idGroup">
+<?php
+$group = listerGroup();
+
+// préférer un appel à mkSelect("idUser",$users, ...)
+foreach ($group as $dataGroup)
+{
+    echo "<option value=\"$dataGroup[ID_groupe]\">";
+	echo  $dataGroup["ID_groupe"];
+	echo "</option>\n"; 
+}
+?>
+</select>
+</div>
+<div>
+
+<input type="submit" name="action" value="Modifier" />
+</form>
+
+
 </body>
 </html>

@@ -105,8 +105,14 @@ function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
 	return SQLInsert($SQL);}
 }
 function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
-{
+{	$SQLverif = "select * from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_Eleves";
+	if (SQLSelect($SQLverif)!=false){
 	$SQL= "Delete from attribution_groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
-	return SQLDelete($SQL);
+	return SQLDelete($SQL);}
+}
+function afficherEleveGroupe($ID_Groupe)
+{	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where ID_Group=$ID_Groupe";
+	return mkTable(ParcoursRS($SQL));
+
 }
 ?>

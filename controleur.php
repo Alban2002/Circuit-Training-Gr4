@@ -73,7 +73,12 @@ session_start();
 				CreerGroupe($description);
 				$qs="?view=GererGroupes";	
 
+			break;
 
+			case 'Modifier Groupe' :
+				$idGroup = valider("idGroup");
+				$qs="?view=GererGroupe";
+					
 			break;
 			
 		
