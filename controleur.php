@@ -64,14 +64,14 @@ session_start();
 				$idUser = valider("idUser");
 				$idGroup = valider("idGroup");
 				AjouterEleveGroupe($idUser,$idGroup);	
-				$qs="?view=GererGroupes.php";	
+				$qs="?view=GererGroupes";	
 
 			break;
 
 			case 'Créer Groupe' :
 				$description = valider("description");
 				CreerGroupe($description);
-				$qs="?view=GererGroupes.php";	
+				$qs="?view=GererGroupes";	
 
 
 			break;
