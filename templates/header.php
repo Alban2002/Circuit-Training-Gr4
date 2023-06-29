@@ -19,6 +19,6 @@ function reponseInsc($reponse){
     <h1 onclick="changePage('index.php?view=acceuil')">Circuit Training</h1>
     <img src="ressource\person_circle_icon_159926.png" id="logoUser" alt="Accéder a votre compte" onclick="changePage('index.php?view=connexion')">
 </header>
-<div id="contenu">
+<div id="contenuPage">
 
     
