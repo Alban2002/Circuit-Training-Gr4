@@ -35,7 +35,11 @@
 
 <script>
     var exercises = [];
+<<<<<<< Updated upstream
     var userId = 5;
+=======
+    var userId = 1;
+>>>>>>> Stashed changes
 
     function getSeanceValues() {
         var values = [];
@@ -179,6 +183,7 @@
         $("#contenu").sortable(); //Permettre le réarrangement des exercices
 
         var seanceValues;
+
         //Soumettre le formulaire de création de séance avant de construire la séance
         $("#seance_form").submit(function(event) {
             event.preventDefault();
@@ -188,9 +193,6 @@
 
             // Faire quelque chose avec les valeurs récupérées
             console.log(seanceValues);
-
-            // Réinitialiser le formulaire
-            //$("#seance_form")[0].reset();
         });
 
         var listeExercices = []; // Variable pour stocker les exercices de la séance
@@ -228,6 +230,17 @@
                 success: function(response) {
                     console.log('Séance enregistrée avec succès');
                     console.log(response);
+                    // Réinitialiser le formulaire
+                    $("#seance_form")[0].reset();
+                    // Vider la liste des exercices dans #contenu
+                    $('#contenu').empty();
+
+                    // Masquer le créateur de séance et afficher le formulaire
+                    $('#createurSeance').hide();
+                    $('#seance_form').show();
+
+                    // Redirection vers l'URL d'accueil
+                    window.location.href = 'http://localhost/Circuit-Training-Gr4/index.php?view=acceuil';
                 },
                 error: function(xhr, status, error) {
                     console.error('Erreur lors de l\'enregistrement de la séance:', error);
@@ -257,7 +270,7 @@
     <input id="nom_seance" type="text" /><br>
     <p>Description de la séance :</p>
     <input id="description_seance" type="text" /><br>
-    <p>Durée estimée de la séance :</p>
+    <p>Durée estimée de la séance (minutes) :</p>
     <input id="duree_seance" type="text" /><br>
     <p>Difficulté :</p>
     <label><input type="radio" name="difficulte" value="facile">Facile</label>
