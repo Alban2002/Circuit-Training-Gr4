@@ -37,8 +37,6 @@ while ($ligne = $resultatNotation->fetch(PDO::FETCH_ASSOC)) {
     $moyennesNotation[] = $ligne['moyenne_notation'];
 }
 
-
-
 ?>
 
 

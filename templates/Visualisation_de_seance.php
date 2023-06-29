@@ -86,7 +86,7 @@
     #seanceDetails {
         position: fixed;
         z-index: 999;
-        top: 20px;  /* Adjust this to set the distance from the top */
+        top: 50px;  /* Adjust this to set the distance from the top */
         right: 20px;  /* Adjust this to set the distance from the right */
         width: 300px;  /* Width of the box */
         height: auto;  /* Height will adjust based on content */
@@ -99,7 +99,7 @@
     #descriptionContainer {
         position: fixed;
         z-index: 999;
-        top: 20px;  /* Adjust this to set the distance from the top */
+        top: 120px;  /* Adjust this to set the distance from the top */
         right: 20px;  /* Adjust this to set the distance from the right */
         width: 300px;  /* Width of the box */
         height: auto;  /* Height will adjust based on content */
@@ -112,10 +112,10 @@
 
 
     #calendar {
-        position: absolute; /* Utilise le positionnement absolu par rapport à l'élément parent */
+         /* Utilise le positionnement absolu par rapport à l'élément parent */
         top: 50px; /* Déplace l'élément en haut de la page */
         left: 0; /* Déplace l'élément à gauche de la page */
-        width: 70%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
+        width: 60%; /* Définit la largeur de l'élément en pourcentage de la largeur de l'écran */
         height: auto; /* La hauteur de l'élément s'adapte au contenu */
         background-color: white; /* Couleur de fond de l'élément */
         padding: 10px; /* Ajoute un espace entre le contenu et les bords de l'élément */
@@ -135,8 +135,8 @@
     }
 
     .exercise-image {
-        width: 100%;
-        height: auto;
+
+        height: 500px;
     }
 
     .exercise-duration, .exercise-quantity {

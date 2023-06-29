@@ -17,10 +17,11 @@ class SeanceManager
     public function fetchUserSeances($userId)
     {
         $query = "
-            SELECT as1.ID_seance, as1.date , as1.statut_seance, as1.ID_attribution_seance, s.nom
+         SELECT as1.ID_seance, as1.date , as1.statut_seance, as1.ID_attribution_seance, s.nom
         FROM attribution_seance as1
         JOIN seance s ON s.ID_seance = as1.ID_seance
-        WHERE as1.ID_user = :userId
+        JOIN attribution_groupe ag ON as1.ID_groupe = ag.ID_groupe
+        WHERE ag.ID_athlete = :userId
         ORDER BY as1.date ASC
         ";
 
