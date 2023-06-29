@@ -104,15 +104,19 @@ function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
 	$SQL = "insert into attribution_groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
 	return SQLInsert($SQL);}
 }
-function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
-{	$SQLverif = "select * from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_Eleves";
+function SupprimerEleveGroupe($ID_athlete,$ID_Groupe)
+{	$SQLverif = "select * from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_athlete";
 	if (SQLSelect($SQLverif)!=false){
-	$SQL= "Delete from attribution_groupe where ID_group,ID_athlete=$ID_Groupe,$ID_Athlete";
+	$SQL= "Delete from attribution_groupe where ID_groupe=$ID_Groupe and ID_athlete=$ID_athlete";
 	return SQLDelete($SQL);}
 }
 function afficherEleveGroupe($ID_Groupe)
 {	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe";
-	return mkTable(ParcoursRS(SQLSelect($SQL)));
+	return ParcoursRS(SQLSelect($SQL));
+}
+function EleveDansGroupe($ID_Groupe)
+{	$SQL= " Select pseudo,ID_athlete from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe";
+	return ParcoursRS(SQLSelect($SQL));
 }
 function afficherElevePasGroupe($ID_Groupe)
 {	$SQL= " Select pseudo,ID_user from users where role='athlete' Except Select pseudo,ID_user from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe ";

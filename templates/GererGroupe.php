@@ -50,7 +50,7 @@ include_once("libs/maLibUtils.php"); ?>
     <h2>Utilisateurs dans le groupe</h2>
     <?php
     $ID_Group = $_GET["reponse"];
-    afficherEleveGroupe($ID_Group);
+    mkTable(afficherEleveGroupe($ID_Group));
     ?>
     <form action="controleur.php" method="GET">
         <select name="idUser2">
@@ -67,6 +67,23 @@ include_once("libs/maLibUtils.php"); ?>
         </select>
         <input type="hidden" name="idGroup2" value="<?php echo $ID_Group; ?>">
         <input type="submit" name="action" value="Associer à ce groupe" />
+    </form>
+
+    <form action="controleur.php" method="GET">
+        <select name="idUser3">
+            <?php
+            $users = EleveDansGroupe($ID_Group);
+
+            foreach ($users as $dataUser)
+            {
+                echo "<option value=\"$dataUser[ID_athlete]\">";
+                echo $dataUser["pseudo"];
+                echo "</option>\n";
+            }
+            ?>
+        </select>
+        <input type="hidden" name="idGroup4" value="<?php echo $ID_Group; ?>">
+        <input type="submit" name="action" value="Retirer de ce groupe" />
     </form>
 
     <form action="controleur.php" method="GET">
