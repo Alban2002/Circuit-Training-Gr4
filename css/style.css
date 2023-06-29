@@ -1,5 +1,5 @@
 .contenairselect {
-    position: absolute;
+    position: relative;
     width: 70%;
     left: 15%;
     right: 15%;
@@ -17,6 +17,9 @@
     border-radius: 20%;
     justify-content: center;
 }
+.selection1:hover,.selection2:hover {
+    background: linear-gradient(white,black);
+  }
 
 .selection1{
     margin-right: 10%;

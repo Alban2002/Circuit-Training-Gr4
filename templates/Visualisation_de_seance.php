@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/fr.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <?php include_once '../libs/fonctions_Visualisation_de_seance.php'; ?>
+    <?php include_once 'libs/fonctions_Visualisation_de_seance.php'; ?>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -282,7 +282,7 @@
 
         $.ajax({
             type: "POST",
-            url: "../libs/fonctions_Visualisation_de_seance.php",
+            url: "libs/fonctions_Visualisation_de_seance.php",
             data: { action: "fetchUserSeances", userId: userId },
             dataType: "json",
             success: function(response) {
@@ -312,7 +312,7 @@
                             // Faire une requête AJAX pour obtenir les détails de la séance
                             $.ajax({
                                 type: "POST",
-                                url: "../libs/fonctions_Visualisation_de_seance.php",
+                                url: "libs/fonctions_Visualisation_de_seance.php",
                                 data: { action: "fetchSeanceDetails", seanceId: selectedSeanceId },
                                 dataType: "json",
                                 success: function(response) {
@@ -347,7 +347,7 @@
                 $('#stopSeance').show();
                 $.ajax({
                     type: "POST",
-                    url: "../libs/fonctions_Visualisation_de_seance.php",
+                    url: "libs/fonctions_Visualisation_de_seance.php",
                     data: { action: "fetchExercises",  seanceId: selectedSeanceId },
                     dataType: "json",
                     success: function(response) {
@@ -371,7 +371,7 @@
                     success: function() {
                         $.ajax({
                             type: "POST",
-                            url: "../libs/fonctions_Visualisation_de_seance.php",
+                            url: "libs/fonctions_Visualisation_de_seance.php",
                             data: { action: "fetchUserSeances", userId: userId },
                             dataType: "json",
                             success: function(response) {
@@ -419,7 +419,7 @@
                 var rating = $('input[name="rating"]:checked').val();
                 if (rating) {
                     $.ajax({
-                        url: '../libs/fonctions_Visualisation_de_seance.php',
+                        url: 'libs/fonctions_Visualisation_de_seance.php',
                         type: 'POST',
                         data: {
                             action: 'saveFeedback',
