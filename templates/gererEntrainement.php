@@ -11,10 +11,7 @@
     <?php include_once 'templates/fonctions_gererEntrainement.php'; ?>
     <style>
         #contenu {margin:5px 0px;}
-        #contenu p:hover {
-            cursor:pointer;
-            border:1px dashed black;
-        }
+
         #contenu textarea {
             display:block;
             width:100%;
@@ -145,7 +142,8 @@
             .click(function(){
                 $(this).select();
             }))
-        .append(btnPlus);
+        .append(btnPlus)
+
 
     // quand doc pret
     $(document).ready(function(){
