@@ -90,7 +90,7 @@ function listergroup()
 }
 function CreerGroupe($description)
 {
-	$SQL= "insert into groupes (ID_COACH, description) VALUES($_SESSION[idUser],$description)";
+	$SQL= "insert into groupes (ID_COACH, description) VALUES($_SESSION[idUser],'$description')";
 	return SQLInsert($SQL);
 }
 function VoirSesEleves()

@@ -1,6 +1,6 @@
 <?php
-include_once("../libs/modele.php");
-include_once("../libs/maLibUtils.php"); ?>
+include_once("libs/modele.php");
+include_once("libs/maLibUtils.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +46,7 @@ include_once("../libs/maLibUtils.php"); ?>
     <h1>Assigner des utilisateurs à des groupes</h1>
     <h2>Utilisateur</h2>
     <div class="container">
-    <form action="../controleur.php" method="GET">
+    <form action="controleur.php" method="GET">
 <select name="idUser">
 <?php
 $users = listerUtilisateurs();
@@ -83,7 +83,7 @@ foreach ($group as $dataGroup)
 </form>
 <h1>Créer un groupe</h1>
 <div>
-<form action="../controleur.php" method="GET">
+<form action="controleur.php" method="GET">
 Description : <input type="text" name="description" value="" />
 </div>
 <input type="submit" name="action" value="Créer Groupe"/>
