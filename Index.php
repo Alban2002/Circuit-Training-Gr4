@@ -58,6 +58,10 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates/CreerExercice.php");
 		break;
 
+		case "GererGroupes" :
+			include("templates/GererGroupes.php");
+		break;
+
 
 
 

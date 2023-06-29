@@ -218,6 +218,7 @@
 
 
     var selectedSeanceId;
+    var ThisSelectedSeanceId;
     $(document).ready(function() {
         var exercises = [];
         var currentExerciseIndex = 0;
@@ -263,7 +264,8 @@
                     start: eventDate,
                     id: seance.ID_seance,
                     className: className,
-                    statut_seance: seance.statut_seance // Ajout de cette ligne qui créé un calEvent
+                    statut_seance: seance.statut_seance, // Ajout de cette ligne qui créé un calEvent
+                    idSelected: seance.ID_attribution_seance
                 };
             });
         }
@@ -295,6 +297,7 @@
                             $(this).removeClass('selected');
                             // Réinitialiser l'ID de la séance sélectionnée
                             selectedSeanceId = null;
+                            ThisSelectedSeanceId = null;
                             // Cacher le menu déroulant
                             $('#seanceDetails').hide();
                         } else {
@@ -304,6 +307,7 @@
                             $(this).addClass('selected');
                             // Récupérer l'ID de la séance sélectionnée
                             selectedSeanceId = calEvent.id;
+                            ThisSelectedSeanceId = calEvent.idSelected;
 
                             // Faire une requête AJAX pour obtenir les détails de la séance
                             $.ajax({
@@ -356,7 +360,7 @@
                     url: "../libs/fonctions_Visualisation_de_seance.php",
                     data: {
                         action: "updateSeanceStatus",
-                        seanceId: selectedSeanceId,
+                        seanceId: ThisSelectedSeanceId,
                         status: 'fait'
 
 
@@ -419,7 +423,7 @@
                         type: 'POST',
                         data: {
                             action: 'saveFeedback',
-                            seanceId: selectedSeanceId,
+                            seanceId: ThisSelectedSeanceId,
                             rating: rating
                         },
                         success: function() {
@@ -434,6 +438,7 @@
                             // Réinitialise l'index de l'exercice courant
                             currentExerciseIndex = 0;
                             selectedSeanceId = 0;
+                            ThisSelectedSeanceId = 0;
                             // Arrête le timer en cours, s'il y en a un
                             if (timer) {
                                 clearInterval(timer);

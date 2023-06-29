@@ -17,7 +17,7 @@ class SeanceManager
     public function fetchUserSeances($userId)
     {
         $query = "
-            SELECT as1.ID_seance, as1.date , as1.statut_seance, s.nom
+            SELECT as1.ID_seance, as1.date , as1.statut_seance, as1.ID_attribution_seance, s.nom
         FROM attribution_seance as1
         JOIN seance s ON s.ID_seance = as1.ID_seance
         WHERE as1.ID_user = :userId
@@ -37,7 +37,7 @@ class SeanceManager
         $query = "
         UPDATE attribution_seance
         SET statut_seance = :status
-        WHERE ID_seance = :seanceId
+        WHERE ID_attribution_seance = :seanceId
     ";
 
         $stmt = $this->db->prepare($query);
@@ -83,7 +83,7 @@ class SeanceManager
         $query = "
         UPDATE attribution_seance
         SET RessentitSeance = :rating
-        WHERE ID_seance = :seanceId
+        WHERE ID_attribution_seance  = :seanceId
     ";
 
         $stmt = $this->db->prepare($query);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 28 juin 2023 à 11:35
+-- Généré le : jeu. 29 juin 2023 à 10:01
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -54,11 +54,11 @@ CREATE TABLE IF NOT EXISTS `attribution_seance` (
   `ID_groupe` int NOT NULL,
   `date` date DEFAULT NULL,
   `ID_coach` int NOT NULL,
-  `statut_seance` enum('a faire','fait','non fait') NOT NULL,
-  `ID_attribution_seance` int NOT NULL,
-  `RessentitSeance` int NOT NULL,
+  `statut_seance` enum('a faire','fait','non fait') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'a faire',
+  `ID_attribution_seance` int NOT NULL AUTO_INCREMENT,
+  `RessentitSeance` int DEFAULT '0',
   PRIMARY KEY (`ID_attribution_seance`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `attribution_seance`
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `attribution_seance` (
 INSERT INTO `attribution_seance` (`ID_seance`, `ID_user`, `ID_groupe`, `date`, `ID_coach`, `statut_seance`, `ID_attribution_seance`, `RessentitSeance`) VALUES
 (123183, 1, 123, '2023-06-30', 2, 'fait', 1, 4),
 (12318366, 1, 123, '2023-06-27', 2, 'fait', 2, 1),
-(1231836, 1, 123, '2023-06-30', 2, 'non fait', 3, 0);
+(1231836, 1, 123, '2023-06-30', 2, 'non fait', 3, 3);
 
 -- --------------------------------------------------------
 
