@@ -4,6 +4,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            function loadGroupSeances(groupeId) {
+                // Vide la liste des séances
+                $('#seanceSupprimer').empty();
+
+                // Chargement des séances pour le groupe sélectionné
+                $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupSeances', groupeId: groupeId }, function(data) {
+                    $.each(data, function(key, value) {
+                        $('#seanceSupprimer').append('<option value="' + value.ID_attribution_seance + '">' + value.nom + ' ' + value.date + '</option>');
+                    });
+                }, 'json');
+            }
             // Chargement initial des groupes
             $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupes' }, function(data) {
                 $.each(data, function(key, value) {
@@ -14,17 +26,7 @@
             // Événement de changement pour le groupe
             $('#groupes').change(function() {
                 var groupeId = $(this).val();
-
-                // Vide la liste des séances
-                $('#seanceSupprimer').empty();
-
-                // Chargement des séances pour le groupe sélectionné
-                $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupSeances', groupeId: groupeId }, function(data) {
-                    $.each(data, function(key, value) {
-                        $('#seanceSupprimer').append('<option value="' + value.ID_attribution_seance + '">' + value.nom + ' ' + value.date + '</option>');
-                    });
-                }, 'json');
-
+                loadGroupSeances(groupeId);
             });
 
 
@@ -67,18 +69,18 @@
 
 
 
+            // Fonction pour ajouter la séance sélectionnée
             $('#submit').click(function() {
                 var seanceId = $('#seanceAjouter').val();
                 var groupId = $('#groupes').val();
                 var date = $('#date').val();
                 if (seanceId && groupId && date){
-
                     // Envoyer une requête AJAX pour ajouter la séance
                     $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'insertAttribution', groupes: groupId, seance: seanceId, date: date }, function(response) {
                         // Afficher le message de succès ou d'erreur
                         alert('Séance ajoutée');
-
-
+                        // Recharger les séances du groupe
+                        loadGroupSeances(groupId);
                     });
                 } else {
                     alert('Veuillez remplir tous les champs avant de commencer.');
