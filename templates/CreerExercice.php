@@ -3,6 +3,7 @@
 .exercice {
   height: 20%;
   width: 100%;
+  min-height: 200px;
   border: solid 1px black;
   display: flex;
   flex-direction: lign;
@@ -12,14 +13,19 @@
 .exercice p,img, {
   margin-right: 10%;
 }
-
-.exercice img{
-  float: left;
-  height:10%;
-  width: 10%;
+.exercice p{
+  font-size: 1.2rem;
 }
 
-#Exercices{
+.exercice img{
+  height:10%;
+  width: 10%;
+  min-width: 150px;
+  min-height: 150px;
+
+}
+
+.Exercices{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +56,27 @@ include_once("libs/maLibSQL.pdo.php");
 $id_coach=$_SESSION["idUser"];
 $SQL="SELECT * FROM exercices WHERE ID_coach='$id_coach'";
 $data=SQLSelect($SQL);
-foreach ( $data as $exercice ) {
+foreach ($data as $exercice ) {
+$configurateur=$exercice["configurateur"];
+$nom=$exercice["nom"];
+$description=$exercice["description"];
+$url=$exercice['media'];
+echo " <fieldset class='exercice'> ";
+echo "<legend>$nom</legend>";
+echo "Description :<p>$description</p>";
+echo "Type :<p>$configurateur</p>";
+echo "<img src='{$url}'  />";
+echo "</fieldset>";
+
+}
+
+?>
+<H2>Les exercices des autres coach</H2>
+<div class="Exercices">
+<?php
+$SQL2="SELECT * FROM exercices WHERE ID_coach!='$id_coach'";
+$data2=SQLSelect($SQL2);
+foreach ($data2 as $exercice ) {
 $configurateur=$exercice["configurateur"];
 $nom=$exercice["nom"];
 $description=$exercice["description"];
