@@ -67,7 +67,7 @@ echo " <fieldset class='exercice'> ";
 echo "<legend>$nom</legend>";
 echo "Description :<p>$description</p>";
 echo "Type :<p>$configurateur</p>";
-echo "<img src='{$url}'  />";
+echo "<img src='{$url}' />";
 echo "</fieldset>";
 }
 

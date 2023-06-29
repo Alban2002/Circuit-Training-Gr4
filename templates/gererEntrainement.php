@@ -35,7 +35,7 @@
 
 <script>
     var exercises = [];
-    var userId = ;
+    var userId = 5;
 
     function getSeanceValues() {
         var values = [];

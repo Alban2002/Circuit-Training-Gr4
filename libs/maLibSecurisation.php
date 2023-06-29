@@ -37,7 +37,7 @@ function verifUser($login,$password)
 		// renvoyer vrai ou faux
 		// NB session_start(); a été appelé au début du controleur
 		$_SESSION["pseudo"] = $login;
-		$_SESSION["idUser"] = $id;
+		 $_SESSION["idUser"]= $id;
 		$_SESSION["connecte"] = true;
 		$_SESSION["heureConnexion"] = date("H:i:s");
 		$_SESSION["role"]=getRole($id);

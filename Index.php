@@ -1,5 +1,8 @@
 <?php
 session_start();
+$id=$_SESSION["idUser"];
+echo ("<script>idUser={$id};
+console.log(id);</script>");
 /*
 Cette page génère les différentes vues de l'application en utilisant des templates situés dans le répertoire "templates". Un template ou 'gabarit' est un fichier php qui génère une partie de la structure XHTML d'une page. 
 
@@ -61,9 +64,9 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 		case "GererGroupes" :
 			include("templates/GererGroupes.php");
 		break;
-		
-		case "GererGroupe" :
-			include("templates/GererGroupe.php");
+
+		case "voirseance" :
+			include("templates/voirseance.php");
 		break;
 
 

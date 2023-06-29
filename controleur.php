@@ -29,6 +29,9 @@ session_start();
 		{
 			
 			// Connexion //////////////////////////////////////////////////
+			case 'id':
+				$response=json_encode($_SESSION["idUser"]);
+    		echo $response;
 
 			case 'deconnexion' :
 						session_destroy();	

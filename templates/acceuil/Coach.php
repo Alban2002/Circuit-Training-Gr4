@@ -1,6 +1,6 @@
 <body>
 <div class="contenairselect">
-<div id="Lienentrainements" class="selection1" onclick="changePage('index.php?view=gererEntrainement')">
+<div id="Lienentrainements" class="selection1" onclick="changePage('index.php?view=voirseance')">
     <h2 class="titreselec">Accéder à mes entrainements</h2>
 </div>
 <div id="Lienentrainements" class="selection1" onclick="changePage('index.php?view=creerExercice')">
