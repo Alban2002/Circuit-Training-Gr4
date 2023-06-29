@@ -107,7 +107,17 @@ class SeanceManager
             $stmt->execute();
         }
 
-        return true; // or you can return the seanceId if needed
+        return true;
+    }
+
+    function supprimerSeance($id_seance) {
+        // Effectuer ici la suppression de la séance dans la base de données en utilisant l'ID spécifié
+
+        $deleteSeanceQuery = "DELETE FROM seance WHERE ID_seance = :id_seance";
+        $stmt = db->prepare($deleteSeanceQuery);
+        $stmt->bindParam(':id_seance', $id_seance, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        return $result;
     }
     // Vous pouvez ajouter d'autres méthodes pour d'autres fonctionnalités ici
 }
@@ -165,6 +175,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 echo json_encode(['success' => false, 'message' => $errorMessage]);
             }
 
+            break;
+        case 'supprimerSeance':
+            if (isset($_POST['seanceId'])) {
+                $exercises = $seanceManager->supprimerSeance($_POST['seanceId']);
+                echo json_encode(['success' => true]);
+            }
+            else{
+                echo json_encode(['success' => false]);
+            }
             break;
         // ...
     }
