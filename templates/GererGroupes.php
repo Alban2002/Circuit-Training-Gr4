@@ -93,7 +93,7 @@ Description : <input type="text" name="description" value="" />
 <form action="controleur.php" method="GET">
 <div class="container">
 <h2>Groupe</h2>
-<select name="idGroup">
+<select name="idGroup2">
 <?php
 $group = listerGroup();
 
@@ -109,7 +109,7 @@ foreach ($group as $dataGroup)
 </div>
 <div>
 
-<input type="submit" name="action" value="Modifier" />
+<input type="submit" name="action" value="Modifier Groupe" />
 </form>
 
 

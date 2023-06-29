@@ -61,6 +61,10 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 		case "GererGroupes" :
 			include("templates/GererGroupes.php");
 		break;
+		
+		case "GererGroupe" :
+			include("templates/GererGroupe.php");
+		break;
 
 
 

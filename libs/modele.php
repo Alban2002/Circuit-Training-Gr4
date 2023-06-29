@@ -10,6 +10,7 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 
 // inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("maLibSQL.pdo.php");
+include_once("maLibForms.php");
 include_once("config.php");
 // fournit parcoursRS, SQLSelect, etc. 
 
@@ -111,8 +112,11 @@ function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
 	return SQLDelete($SQL);}
 }
 function afficherEleveGroupe($ID_Groupe)
-{	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where ID_Group=$ID_Groupe";
-	return mkTable(ParcoursRS($SQL));
-
+{	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where ID_groupe=$ID_Groupe";
+	return mkTable(ParcoursRS(SQLSelect($SQL)));
+}
+function afficherElevePasGroupe($ID_Groupe)
+{	$SQL= " Select pseudo from users join attribution_groupe on ID_user=ID_athlete where not ID_groupe=$ID_Groupe";
+	return ParcoursRS(SQLSelect($SQL));
 }
 ?>

@@ -76,9 +76,9 @@ session_start();
 			break;
 
 			case 'Modifier Groupe' :
-				$idGroup = valider("idGroup");
-				$qs="?view=GererGroupe";
-					
+				$reponse=valider("idGroup2");
+				$qs="?view=GererGroupe&reponse=$reponse";
+
 			break;
 			
 		
