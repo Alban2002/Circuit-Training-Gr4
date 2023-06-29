@@ -100,9 +100,9 @@ function VoirSesEleves()
 }
 function AjouterEleveGroupe($ID_Eleves, $ID_Groupe)
 {	$SQLverif = "select * from attribution_groupe where ID_groupe==$ID_Groupe and ID_athlete==$ID_Eleves";
-		if (SQLSelect($SQLverif)=false){
+		
 	$SQL = "insert into attribution_groupe (ID_groupe, ID_athlete) VALUES($ID_Groupe,$ID_Eleves)";
-	return SQLInsert($SQL);}
+	return SQLInsert($SQL);
 }
 function SupprimerEleveGroupe($ID_Eleves,$ID_Groupe)
 {
