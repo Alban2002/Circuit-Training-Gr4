@@ -21,10 +21,12 @@
                 // Chargement des séances pour le groupe sélectionné
                 $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupSeances', groupeId: groupeId }, function(data) {
                     $.each(data, function(key, value) {
-                        $('#seanceSupprimer').append('<option value="' + value.ID_seance + '">' + value.nom + '</option>');
+                        $('#seanceSupprimer').append('<option value="' + value.ID_attribution_seance + '">' + value.nom + ' ' + value.date + '</option>');
                     });
                 }, 'json');
+
             });
+
 
 
             $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getSeances' }, function(data) {
@@ -37,42 +39,85 @@
 
             // Fonction pour supprimer la séance sélectionnée
             $('#btnSupprimer').click(function() {
-                var seanceId = $('#seanceSupprimer').val();
+                var attributionId = $('#seanceSupprimer').val(); // Obtenez l'ID d'attribution de la séance à supprimer
 
-                // Envoyer une requête AJAX pour supprimer la séance
-                $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'delete', seanceId: seanceId }, function(response) {
-                    // Afficher le message de succès ou d'erreur
-                    alert(response);
-                    // Supprimer l'option de la séance dans la liste déroulante
-                    $('#seanceSupprimer option:selected').remove();
-                });
+
+                if (attributionId){
+                    // Envoyer une requête AJAX pour supprimer la séance
+                    $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'deleteAttribution', attributionId: attributionId }, function(response) {
+                        // Vérifiez si la suppression a réussi
+                        if(response.status == 'success'){
+                            // Afficher le message de succès
+                            alert('Séance supprimée avec succès');
+                            // Supprimer l'option de la séance dans la liste déroulante
+                            $('#seanceSupprimer option:selected').remove();
+
+                        } else {
+                            // Afficher le message d'erreur
+                            alert('La suppression a échoué: ' + response.message);
+                        }
+                    }, 'json');
+                } else {
+                    alert('Veuillez choisir une séance à supprimer..');
+                }
             });
+
+
+
+
+
+
+            $('#submit').click(function() {
+                var seanceId = $('#seanceAjouter').val();
+                var groupId = $('#groupes').val();
+                var date = $('#date').val();
+                if (seanceId && groupId && date){
+
+                    // Envoyer une requête AJAX pour ajouter la séance
+                    $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'insertAttribution', groupes: groupId, seance: seanceId, date: date }, function(response) {
+                        // Afficher le message de succès ou d'erreur
+                        alert('Séance ajoutée');
+
+
+                    });
+                } else {
+                    alert('Veuillez remplir tous les champs avant de commencer.');
+                }
+            });
+
+
+
+
         });
+
     </script>
 </head>
 <body>
 
 <h2>Attribution de séances à un groupe</h2>
 
-<form action="../libs/Fonctions_SceanceGroupe.php" method="post">
-    <input type="hidden" name="action" value="insert">
+
+
     <label for="groupes">Choisir un groupe:</label><br>
     <select id="groupes" name="groupes">
         <option value="" disabled selected>Choisissez un groupe</option>
     </select><br>
     <label for="seanceAjouter">Choisir une séance:</label><br>
+
     <select id="seanceAjouter" name="seanceAjouter">
-        <option value="" disabled selected>Choisissez une séance</option>
+
+    <option value="" disabled selected>Choisissez une séance</option>
     </select><br>
     <label for="date">Choisir une date:</label><br>
     <input type="date" id="date" name="date" required><br>
-    <input type="submit" value="Ajouter">
-</form>
+    <button id="submit"> Ajouter</button>
+
 
 
 <h3>Supprimer une séance</h3>
 <label for="seanceSupprimer">Sélectionner une séance:</label><br>
 <select id="seanceSupprimer" name="seanceSupprimer">
+    <option value="" disabled selected>Choisissez une séance</option>
 
 </select><br>
 <button id="btnSupprimer">Supprimer</button>

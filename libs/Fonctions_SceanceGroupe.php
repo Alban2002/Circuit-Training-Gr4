@@ -40,7 +40,7 @@ class GestionnaireSeances
     public function fetchGroupSeances($groupeId)
     {
         $query = "
-        SELECT s.ID_seance, s.nom
+        SELECT a.ID_attribution_seance, s.nom ,a.date
         FROM seance s
         JOIN attribution_seance a ON s.ID_seance = a.ID_seance
         WHERE a.ID_groupe = :groupeId
@@ -55,17 +55,19 @@ class GestionnaireSeances
         return $seances;
     }
 
-    public function deleteAttribution($groupes, $seance, $date)
+    public function deleteAttribution($attributionId)
     {
-        $query = "DELETE FROM attribution_seance WHERE ID_groupe = :groupes AND ID_seance = :seance AND date = :date";
+        $query = "DELETE FROM attribution_seance WHERE ID_attribution_seance = :attributionId";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':groupes', $groupes, PDO::PARAM_INT);
-        $stmt->bindParam(':seance', $seance, PDO::PARAM_INT);
-        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->bindParam(':attributionId', $attributionId, PDO::PARAM_INT);
 
-        $stmt->execute();
+        $result = $stmt->execute();
+
+        return $result;
     }
+
+
 
     public function insertAttribution($groupes, $seance, $date)
     {
@@ -98,14 +100,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             echo json_encode($seances);
             break;
 
-        case 'delete':
-            if (isset($_POST['groupes']) && isset($_POST['seance']) && isset($_POST['date'])) {
-                $seanceManager->deleteAttribution($_POST['groupes'], $_POST['seance'], $_POST['date']);
-                echo "Séance supprimée avec succès";
+        case 'deleteAttribution':
+            if (isset($_POST['attributionId'])) {
+                $result = $seanceManager->deleteAttribution($_POST['attributionId']);
+
+                if ($result) {
+                    echo json_encode(['status' => 'success', 'message' => 'Séance supprimée avec succès']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'La suppression a échoué']);
+                }
             }
             break;
 
-        case 'insert':
+
+
+        case 'insertAttribution':
             if (isset($_POST['groupes']) && isset($_POST['seance']) && isset($_POST['date'])) {
                 $seanceManager->insertAttribution($_POST['groupes'], $_POST['seance'], $_POST['date']);
                 echo "Séance ajoutée avec succès";
