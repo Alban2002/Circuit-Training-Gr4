@@ -24,6 +24,10 @@
 <button id="stopSeance" style="display: none;">Arrêter la séance</button>
 <div id="exerciseContainer"></div>
 <style>
+
+    .fin{
+        margin-bottom:50px;
+    }
     #startSeance{
         display: inline-block;
         padding: 10px 20px;
@@ -139,7 +143,7 @@
 
     .exercise-image {
 
-        height: 500px;
+        height: 300px;
     }
 
     .exercise-duration, .exercise-quantity {
@@ -581,6 +585,8 @@
 
 <div id="descriptionContainer" style="display:none;"></div>
 
-
+</div>
+<div class="fin">
+</div>
 </body>
 </html>
