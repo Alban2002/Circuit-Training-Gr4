@@ -12,7 +12,7 @@ $userID = $_SESSION['idUser'];
 // Récupération des données pour suivre le pourcentage de séances effectuées
 $sql = "SELECT COUNT(*) AS total_seances, SUM(statut_seance = 'fait') AS seances_effectuees FROM attribution_seance 
 JOIN attribution_groupe ag ON attribution_seance.ID_groupe = ag.ID_groupe
-WHERE ID_user = $userID AND statut_seance != 'a faire' ";
+WHERE ag.ID_athlete = $userID AND statut_seance != 'a faire' ";
 $result = $db->query($sql);
 
 if ($result) {
