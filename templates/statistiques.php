@@ -27,7 +27,9 @@ if ($result) {
 }
 
 //Récupération des données pour les ressentis des séances
-$sql = "SELECT MONTHNAME(date) AS mois, AVG(RessentitSeance) AS moyenne_notation FROM attribution_seance WHERE ID_user = $userID AND RessentitSeance != 0 AND date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) GROUP BY MONTH(date)";
+$sql = "SELECT MONTHNAME(date) AS mois, AVG(RessentitSeance) AS moyenne_notation FROM attribution_seance
+JOIN attribution_groupe ag ON attribution_seance.ID_groupe = ag.ID_groupe 
+WHERE ag.ID_athlete = $userID AND RessentitSeance != 0 AND date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) GROUP BY MONTH(date)";
 
 $resultatNotation = $db->query($sql);
 
