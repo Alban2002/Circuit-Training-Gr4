@@ -364,7 +364,7 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "../libs/fonctions_Visualisation_de_seance.php",
+                    url: "libs/fonctions_Visualisation_de_seance.php",
                     data: {
                         action: "updateSeanceStatus",
                         seanceId: ThisSelectedSeanceId,
