@@ -6,14 +6,11 @@
   .contenairselect {
     width: 70%;
     display: flex;
-    flex-direction: lign;
 
 }
 #contenuNC {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 </style>
 <div id="contenuNC">
