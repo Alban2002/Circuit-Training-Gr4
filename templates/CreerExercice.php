@@ -56,7 +56,7 @@ $id_coach=$_SESSION["idUser"];
 $SQL="SELECT * FROM exercices WHERE ID_coach='$id_coach'";
 $data=SQLSelect($SQL);
 if(!($data)){
-  echo "<h3>Vous n'avez pas créer d'exercice</h2>";
+  echo "<h3>Vous n'avez pas créé d'exercice</h2>";
 } else{
 foreach ($data as $exercice ) {
 $configurateur=$exercice["configurateur"];
