@@ -110,8 +110,7 @@ function afficherElevePasGroupe($ID_Groupe)
 	return ParcoursRS(SQLSelect($SQL));
 }
 function SupprimerGroupe($ID_Groupe)
-{
-	$SQL= "Delete from groupes where ID_groupe=$ID_Groupe";
+{	$SQL= "Delete from groupes where ID_groupe=$ID_Groupe";
 	return SQLDelete($SQL);
 }
 ?>
