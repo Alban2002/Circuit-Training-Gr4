@@ -71,6 +71,10 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("templates/voirseance.php");
 		break;
 
+		case "SeanceGroupe":
+			include ("templates/SeanceGroupe.php");
+		break;
+
 
 
 

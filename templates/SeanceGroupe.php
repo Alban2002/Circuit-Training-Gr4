@@ -59,14 +59,14 @@
                 $('#seanceSupprimer').empty();
 
                 // Chargement des séances pour le groupe sélectionné
-                $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupSeances', groupeId: groupeId }, function(data) {
+                $.post('libs/Fonctions_SceanceGroupe.php', { action: 'getGroupSeances', groupeId: groupeId }, function(data) {
                     $.each(data, function(key, value) {
                         $('#seanceSupprimer').append('<option value="' + value.ID_attribution_seance + '">' + value.nom + ' ' + value.date + '</option>');
                     });
                 }, 'json');
             }
             // Chargement initial des groupes
-            $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getGroupes' }, function(data) {
+            $.post('libs/Fonctions_SceanceGroupe.php', { action: 'getGroupes' }, function(data) {
                 $.each(data, function(key, value) {
                     $('#groupes').append('<option value="' + value.ID_groupe + '">' + value.description + '</option>');
                 });
@@ -80,7 +80,7 @@
 
 
 
-            $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'getSeances' }, function(data) {
+            $.post('libs/Fonctions_SceanceGroupe.php', { action: 'getSeances' }, function(data) {
                 $.each(data, function(key, value) {
                     $('#seanceAjouter').append('<option value="' + value.ID_seance + '">' + value.nom + '</option>');
                 });
@@ -95,7 +95,7 @@
 
                 if (attributionId){
                     // Envoyer une requête AJAX pour supprimer la séance
-                    $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'deleteAttribution', attributionId: attributionId }, function(response) {
+                    $.post('libs/Fonctions_SceanceGroupe.php', { action: 'deleteAttribution', attributionId: attributionId }, function(response) {
                         // Vérifiez si la suppression a réussi
                         if(response.status == 'success'){
                             // Afficher le message de succès
@@ -125,7 +125,7 @@
                 var date = $('#date').val();
                 if (seanceId && groupId && date){
                     // Envoyer une requête AJAX pour ajouter la séance
-                    $.post('../libs/Fonctions_SceanceGroupe.php', { action: 'insertAttribution', groupes: groupId, seance: seanceId, date: date }, function(response) {
+                    $.post('libs/Fonctions_SceanceGroupe.php', { action: 'insertAttribution', groupes: groupId, seance: seanceId, date: date }, function(response) {
                         // Afficher le message de succès ou d'erreur
                         alert('Séance ajoutée');
                         // Recharger les séances du groupe
