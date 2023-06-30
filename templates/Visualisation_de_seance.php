@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -223,7 +226,7 @@
         var exercises = [];
         var currentExerciseIndex = 0;
         var timer;
-        var userId = 1;
+        var userId = idUser;
 
 
 
