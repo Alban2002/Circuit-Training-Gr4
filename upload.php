@@ -58,8 +58,9 @@ if ($uploadOk == 0) {
   } else {
     $reponse= "Sorry, there was an error uploading your file.";
   }
-  $qs="?view=CreerExercice&reponse=$reponse";
+  
+}
+$qs="?view=CreerExercice&reponse=$reponse";
   $urlBase = dirname($_SERVER["PHP_SELF"]) . "/index.php";
   header("Location:" . $urlBase . $qs);
-}
 ?>

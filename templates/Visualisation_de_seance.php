@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +24,10 @@
 <button id="stopSeance" style="display: none;">Arrêter la séance</button>
 <div id="exerciseContainer"></div>
 <style>
+
+    .fin{
+        margin-bottom:50px;
+    }
     #startSeance{
         display: inline-block;
         padding: 10px 20px;
@@ -136,7 +143,7 @@
 
     .exercise-image {
 
-        height: 500px;
+        height: 300px;
     }
 
     .exercise-duration, .exercise-quantity {
@@ -223,7 +230,7 @@
         var exercises = [];
         var currentExerciseIndex = 0;
         var timer;
-        var userId = 1;
+        var userId = idUser;
 
 
 
@@ -357,7 +364,7 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "../libs/fonctions_Visualisation_de_seance.php",
+                    url: "libs/fonctions_Visualisation_de_seance.php",
                     data: {
                         action: "updateSeanceStatus",
                         seanceId: ThisSelectedSeanceId,
@@ -578,6 +585,8 @@
 
 <div id="descriptionContainer" style="display:none;"></div>
 
-
+</div>
+<div class="fin">
+</div>
 </body>
 </html>
