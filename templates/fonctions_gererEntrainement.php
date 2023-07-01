@@ -66,8 +66,10 @@ class SeanceManager
             $stmt->bindParam(':seanceId', $seanceId, PDO::PARAM_INT);
             $stmt->bindParam(':ID_exo', $exercise['exercice'], PDO::PARAM_INT);
             $stmt->bindParam(':rang_exo', $exercise['index'], PDO::PARAM_INT);
+            //Expression ternaire en fonction du configurateur
             $duree = $exercise['configurateur'] === 'duree' ? $exercise['valeur'] : null;
             $quantite = $exercise['configurateur'] === 'quantite' ? $exercise['valeur'] : null;
+            
             $stmt->bindParam(':duree', $duree, PDO::PARAM_INT);
             $stmt->bindParam(':quantite', $quantite , PDO::PARAM_INT);
 
